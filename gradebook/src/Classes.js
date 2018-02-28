@@ -34,7 +34,7 @@ class Classes extends Component{
     render() {
         var classes = this.state.classes;
         return(
-            <div><select key="classSelector">
+            <div><select id="classSelector" key="classSelector">
             {classes.map((data) => <option value={data.code} key={data.code}>{data.code}</option>)}
             </select></div>
         );
