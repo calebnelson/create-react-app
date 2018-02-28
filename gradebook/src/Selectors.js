@@ -11,11 +11,15 @@ const classQuery = `
         }
     }`
 
+const lessonQuery = `
+
+`
+
 
 function Classes(props){
     return(
         <select id="classSelector" key="classSelectorField" onChange={props.onChange}>
-            <option value="Select Class">Select Class</option>
+            <option value="" selected disabled hidden>Select Class</option>
             {props.classes.map((data) => <option value={data.code} key={data.code}>{data.code}</option>)}
         </select>
     );
@@ -25,7 +29,7 @@ class Selectors extends Component{
     constructor(props){
         super(props);
         this.state = {
-            selectedClass: "Select Class",
+            selectedClass: undefined,
             classes: ["Getting Classes..."]
         };
         this.runClassQuery();
@@ -44,10 +48,11 @@ class Selectors extends Component{
     }
 
     onClassChange(newClassEvent){
+        var classCode = newClassEvent.target.value;
+        var index = this.state.classes.findIndex(x => x.code === classCode);
         this.setState({
-            selectedClass: newClassEvent.target.value
+            selectedClass: this.state.classes[index]
         });
-        console.log(newClassEvent.target.value);
     }
 
     render() {
