@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {query} from './graphql'
 import Classes from './Classes'
 
 class App extends Component {

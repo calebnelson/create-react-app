@@ -1,6 +1,6 @@
 class GraphQLClient {
   constructor(host, port) {
-    this.uri = `${host}:${port}/graphql`
+    this.uri = `${host}/graphql`
     this.jwt = undefined
   }
 

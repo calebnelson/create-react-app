@@ -5,26 +5,38 @@ import {query} from './graphql'
 const classQuery = `
     query{
         classrooms {
-          code
-          endDate
+            code
+            endDate
         }
-      }`
+    }`
 
 class Classes extends Component{
-    
-    getOptions = async() =>{
+    constructor(props){
+        super(props);
+        this.state = {
+            classes: []
+        };
+        this.getOptions();
+    }
+
+    setStateAsync(state){
+        return new Promise((resolve) => {
+            this.setState(state, resolve)
+        });
+    }
+
+    async getOptions(){
         const res = await query(classQuery);
         const queryRes = await res.json();
-        return queryRes.data.classrooms;
+        this.setStateAsync({classes: queryRes.data.classrooms});
     }
 
     render() {
-        const classes = this.getOptions();
-        console.log(classes);
+        var classes = this.state.classes;
         return(
-            <div>
-            {classes.map((data) => <option value={data.code}>{data.code}</option>)}
-            </div>
+            <div><select key="classSelector">
+            {classes.map((data) => <option value={data.code} key={data.code}>{data.code}</option>)}
+            </select></div>
         );
     }
 }
