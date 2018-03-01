@@ -18,14 +18,26 @@ const lessonQuery = `
                 id
                 lessonPlan {
                     title
-                    description
                     order
                 }
             }
         }
     }
 `
-
+const assignmentQuery = `
+    query assignementsFromLesson($lessonID: ID!) {
+        lesson(id: $lessonID) {
+            assignments {
+                id
+                problemSet {
+                    title
+                    order
+                }
+            }
+        }
+    }
+  
+`
 
 function Classes(props){
     return(
@@ -33,7 +45,7 @@ function Classes(props){
             <option value="" selected disabled hidden>Select Class</option>
             {props.classes.map((data) => 
                 <option value={data.code} key={data.code}>
-                    {data.code}
+                    {data ? data.code : "Getting Classes..."}
                 </option>)
             }
         </select>
@@ -53,13 +65,29 @@ function Lessons(props){
     );
 }
 
+function Assignments(props){
+    return(
+        <select id="assignmentSelector" key="assignmentSelectorField" onChange={props.onChange}>
+            <option value="" selected disabled hidden>Select Assignment</option>
+            {props.assignments.map((data) => 
+                <option value={data.id} key={data.id}>
+                    {data.problemSet ? data.problemSet.order.toString().concat(". ").concat(data.problemSet.title) : 'No Problem Set Found'}
+                </option>)
+            }
+        </select>
+    );
+}
+
 class Selectors extends Component{
     constructor(props){
         super(props);
         this.state = {
+            classes: [],
+            lessons: [],
+            assignments: [],
             selectedClass: undefined,
-            classes: ["Getting Classes..."],
-            lessons: ["Choose Class to get Lessons"],
+            selectedLesson: undefined,
+            selectedAssignment: undefined,
         };
         this.runClassQuery();
     }
@@ -80,6 +108,16 @@ class Selectors extends Component{
         this.setStateAsync({lessons: sortedLessons})
     }
 
+    async runAssignmentQuery(lessonID){
+        var variables = "{ \"lessonID\": \"".concat(lessonID).concat("\" }");
+        const res = await query(assignmentQuery, variables);
+        const queryRes = await res.json();
+        var sortedAssignments = queryRes.data.lesson.assignments.sort(function(a, b){
+            return a.problemSet.order - b.problemSet.order;
+        });
+        this.setStateAsync({assignments: sortedAssignments})
+    }
+
     setStateAsync(state){
         return new Promise((resolve) => {
             this.setState(state, resolve)
@@ -94,7 +132,6 @@ class Selectors extends Component{
             selectedClass: sc
         });
         this.runLessonQuery(sc.id);
-        console.log(this.state.lessons);
     }
 
     onLessonChange(newLessonEvent){
@@ -104,7 +141,16 @@ class Selectors extends Component{
         this.setState({
             selectedLesson: sl
         })
-        console.log(sl);
+        this.runAssignmentQuery(sl.id);
+    }
+
+    onAssignmentChange(newAssignmentEvent){
+        var assignmentID = newAssignmentEvent.target.value;
+        var index = this.state.lessons.findIndex(x => x.id === assignmentID);
+        var sa = this.state.assignments[index];
+        this.setState({
+            selectedLesson: sa
+        })
     }
 
     render() {
@@ -117,6 +163,10 @@ class Selectors extends Component{
                 <Lessons key="lessonSelector"
                     lessons={this.state.lessons}
                     onChange={i => this.onLessonChange(i)}
+                />
+                <Assignments key="lessonSelector"
+                    assignments={this.state.assignments}
+                    onChange={i => this.onAssignmentChange(i)}
                 />
             </div>
         );
