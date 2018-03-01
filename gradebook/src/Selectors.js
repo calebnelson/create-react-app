@@ -44,7 +44,7 @@ function Classes(props){
         <select id="classSelector" key="classSelectorField" onChange={props.onChange}>
             <option value="" selected disabled hidden>Select Class</option>
             {props.classes.map((data) => 
-                <option value={data.code} key={data.code}>
+                <option value={data.id} key={data.id}>
                     {data ? data.code : "Getting Classes..."}
                 </option>)
             }
@@ -125,8 +125,8 @@ class Selectors extends Component{
     }
 
     onClassChange(newClassEvent){
-        var classCode = newClassEvent.target.value;
-        var index = this.state.classes.findIndex(x => x.code === classCode);
+        var classID = newClassEvent.target.value;
+        var index = this.state.classes.findIndex(x => x.id === classID);
         var sc = this.state.classes[index];
         this.setState({
             selectedClass: sc
