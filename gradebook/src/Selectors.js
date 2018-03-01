@@ -9,7 +9,8 @@ const classQuery = `
             code
             endDate
         }
-    }`
+    }
+`
 
 const lessonQuery = `
     query lessonsFromClass($classID: ID!) {
@@ -36,7 +37,6 @@ const assignmentQuery = `
             }
         }
     }
-  
 `
 
 function Classes(props){
@@ -129,7 +129,11 @@ class Selectors extends Component{
         var index = this.state.classes.findIndex(x => x.id === classID);
         var sc = this.state.classes[index];
         this.setState({
-            selectedClass: sc
+            lessons: [],
+            assignments: [],
+            selectedClass: sc,
+            selectedLesson: undefined,
+            selectedAssignment: undefined,
         });
         this.runLessonQuery(sc.id);
     }
@@ -139,7 +143,9 @@ class Selectors extends Component{
         var index = this.state.lessons.findIndex(x => x.id === lessonID);
         var sl = this.state.lessons[index];
         this.setState({
-            selectedLesson: sl
+            assignments: [],
+            selectedLesson: sl,
+            selectedAssignment: undefined,
         })
         this.runAssignmentQuery(sl.id);
     }
