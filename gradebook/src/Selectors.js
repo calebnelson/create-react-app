@@ -31,7 +31,11 @@ function Classes(props){
     return(
         <select id="classSelector" key="classSelectorField" onChange={props.onChange}>
             <option value="" selected disabled hidden>Select Class</option>
-            {props.classes.map((data) => <option value={data.code} key={data.code}>{data.code}</option>)}
+            {props.classes.map((data) => 
+                <option value={data.code} key={data.code}>
+                    {data.code}
+                </option>)
+            }
         </select>
     );
 }
@@ -40,7 +44,11 @@ function Lessons(props){
     return(
         <select id="lessonSelector" key="lessonSelectorField" onChange={props.onChange}>
             <option value="" selected disabled hidden>Select Lesson</option>
-            {props.lessons.map((data) => <option value={data.id} key={data.id}>{data.id}</option>)}
+            {props.lessons.map((data) => 
+                <option value={data.id} key={data.id}>
+                    {data.lessonPlan ? data.lessonPlan.order.toString().concat(". ").concat(data.lessonPlan.title) : 'No Lesson Plan Found'}
+                </option>)
+            }
         </select>
     );
 }
@@ -66,7 +74,10 @@ class Selectors extends Component{
         var variables = "{ \"classID\": \"".concat(classID).concat("\" }");
         const res = await query(lessonQuery, variables);
         const queryRes = await res.json();
-        this.setStateAsync({lessons: queryRes.data.classroom.lessons})
+        var sortedLessons = queryRes.data.classroom.lessons.sort(function(a, b){
+            return a.lessonPlan.order - b.lessonPlan.order;
+        });
+        this.setStateAsync({lessons: sortedLessons})
     }
 
     setStateAsync(state){
