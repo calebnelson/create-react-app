@@ -7,7 +7,7 @@ const classQuery = `
         classrooms {
             id
             code
-            endDate
+            startDate
         }
     }
 `
@@ -95,7 +95,10 @@ class Selectors extends Component{
     async runClassQuery(){
         const res = await query(classQuery);
         const queryRes = await res.json();
-        this.setStateAsync({classes: queryRes.data.classrooms});
+        var sortedClasses = queryRes.data.classrooms.sort(function(a, b){
+            return new Date(b.startDate) - new Date(a.startDate);
+        });
+        this.setStateAsync({classes: sortedClasses});
     }
 
     async runLessonQuery(classID){
@@ -170,7 +173,7 @@ class Selectors extends Component{
                     lessons={this.state.lessons}
                     onChange={i => this.onLessonChange(i)}
                 />
-                <Assignments key="lessonSelector"
+                <Assignments key="assignmentSelector"
                     assignments={this.state.assignments}
                     onChange={i => this.onAssignmentChange(i)}
                 />
