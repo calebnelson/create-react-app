@@ -15,19 +15,27 @@ const classQuery = `
     }
 `
 
-const lessonQuery = `
-    query lessonsFromClass($classID: ID!) {
-        classroom(id: $classID) {
-            lessons {
-                id
-                lessonPlan {
-                    title
-                    order
-                }
-            }
+const queryOnClass = `
+    query queryOnClass($classID: ID!) {
+      classroom(id: $classID) {
+        enrollments {
+          id
+          student {
+            firstName
+            lastName
+          }
         }
+        lessons {
+          id
+          lessonPlan {
+            title
+            order
+          }
+        }
+      }
     }
 `
+
 const assignmentQuery = `
     query assignementsFromLesson($lessonID: ID!) {
         lesson(id: $lessonID) {
@@ -42,6 +50,18 @@ const assignmentQuery = `
     }
 `
 
+const problemQuery = `
+  query problemsFromAssignment($assignmentID: ID!) {
+    assignment(id: $assignmentID) {
+      problemSet {
+        problems {
+          order
+        }
+      }
+    }
+  }
+`
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -49,6 +69,8 @@ class App extends Component {
         classes: [],
         lessons: [],
         assignments: [],
+        problems: [],
+        enrollments: [],
         selectedClass: undefined,
         selectedLesson: undefined,
         selectedAssignment: undefined,
@@ -65,14 +87,17 @@ class App extends Component {
     this.setStateAsync({classes: sortedClasses});
   }
 
-  async runLessonQuery(classID){
+  async runQueryOnClass(classID){
     var variables = "{ \"classID\": \"".concat(classID).concat("\" }");
-    const res = await query(lessonQuery, variables);
+    const res = await query(queryOnClass, variables);
     const queryRes = await res.json();
     var sortedLessons = queryRes.data.classroom.lessons.sort(function(a, b){
-        return a.lessonPlan.order - b.lessonPlan.order;
+      return a.lessonPlan.order - b.lessonPlan.order;
     });
-    this.setStateAsync({lessons: sortedLessons})
+    var sortedEnrollments = queryRes.data.classroom.enrollments.sort(function(a, b){
+      return a.student.lastName - b.student.lastName;
+    })
+    this.setStateAsync({lessons: sortedLessons, enrollments: sortedEnrollments})
   }
 
   async runAssignmentQuery(lessonID){
@@ -83,6 +108,16 @@ class App extends Component {
         return a.problemSet.order - b.problemSet.order;
     });
     this.setStateAsync({assignments: sortedAssignments})
+  }
+
+  async runProblemQuery(assignmentID){
+    var variables = "{ \"assignmentID\": \"".concat(assignmentID).concat("\" }");
+    const res = await query(problemQuery, variables);
+    const queryRes = await res.json();
+    var sortedProblems = queryRes.data.assignment.problemSet.problems.sort(function(a, b){
+        return a.order - b.order;
+    });
+    this.setStateAsync({problems: sortedProblems})
   }
 
   setStateAsync(state){
@@ -102,7 +137,7 @@ class App extends Component {
         selectedLesson: undefined,
         selectedAssignment: undefined,
     });
-    this.runLessonQuery(sc.id);
+    this.runQueryOnClass(sc.id);
   }
 
   onLessonChange(newLessonEvent){
@@ -119,11 +154,12 @@ class App extends Component {
 
   onAssignmentChange(newAssignmentEvent){
     var assignmentID = newAssignmentEvent.target.value;
-    var index = this.state.lessons.findIndex(x => x.id === assignmentID);
+    var index = this.state.assignments.findIndex(x => x.id === assignmentID);
     var sa = this.state.assignments[index];
     this.setState({
-        selectedLesson: sa
+        selectedAssignment: sa
     })
+    this.runProblemQuery(sa.id);
   }
 
   render() {
@@ -144,7 +180,11 @@ class App extends Component {
           />
         </div>
         <div>
-          <GradeTable />
+          <GradeTable 
+            assignment = {this.state.selectedAssignment}
+            enrollments = {this.state.enrollments}
+            problems = {this.state.problems}
+          />
         </div>
       </div>
     );
