@@ -164,7 +164,7 @@ class Selectors extends Component{
 
     render() {
         return(
-            <div className="classes">
+            <div className="selectors">
                 <Classes key="classSelector"
                     classes={this.state.classes}
                     onChange={i => this.onClassChange(i)}
