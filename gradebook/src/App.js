@@ -5,7 +5,7 @@ import Selectors from './Selectors'
 import GradeTable from './GradeTable'
 import {query} from './graphql'
 
-const classQuery = `
+const queryOnRoot = `
     query{
         classrooms {
             id
@@ -36,8 +36,8 @@ const queryOnClass = `
     }
 `
 
-const assignmentQuery = `
-    query assignementsFromLesson($lessonID: ID!) {
+const queryOnLesson = `
+    query queryOnLesson($lessonID: ID!) {
         lesson(id: $lessonID) {
             assignments {
                 id
@@ -50,8 +50,8 @@ const assignmentQuery = `
     }
 `
 
-const problemQuery = `
-  query problemsFromAssignment($assignmentID: ID!) {
+const queryOnAssignment = `
+  query queryOnAssignment($assignmentID: ID!) {
     assignment(id: $assignmentID) {
       problemSet {
         problems {
@@ -75,11 +75,11 @@ class App extends Component {
         selectedLesson: undefined,
         selectedAssignment: undefined,
     };
-    this.runClassQuery();
+    this.runQueryOnRoot();
   }
 
-  async runClassQuery(){
-    const res = await query(classQuery);
+  async runQueryOnRoot(){
+    const res = await query(queryOnRoot);
     const queryRes = await res.json();
     var sortedClasses = queryRes.data.classrooms.sort(function(a, b){
         return new Date(b.startDate) - new Date(a.startDate);
@@ -100,9 +100,9 @@ class App extends Component {
     this.setStateAsync({lessons: sortedLessons, enrollments: sortedEnrollments})
   }
 
-  async runAssignmentQuery(lessonID){
+  async runQueryOnLesson(lessonID){
     var variables = "{ \"lessonID\": \"".concat(lessonID).concat("\" }");
-    const res = await query(assignmentQuery, variables);
+    const res = await query(queryOnLesson, variables);
     const queryRes = await res.json();
     var sortedAssignments = queryRes.data.lesson.assignments.sort(function(a, b){
         return a.problemSet.order - b.problemSet.order;
@@ -110,9 +110,9 @@ class App extends Component {
     this.setStateAsync({assignments: sortedAssignments})
   }
 
-  async runProblemQuery(assignmentID){
+  async runQueryOnAssignment(assignmentID){
     var variables = "{ \"assignmentID\": \"".concat(assignmentID).concat("\" }");
-    const res = await query(problemQuery, variables);
+    const res = await query(queryOnAssignment, variables);
     const queryRes = await res.json();
     var sortedProblems = queryRes.data.assignment.problemSet.problems.sort(function(a, b){
         return a.order - b.order;
@@ -149,7 +149,7 @@ class App extends Component {
         selectedLesson: sl,
         selectedAssignment: undefined,
     })
-    this.runAssignmentQuery(sl.id);
+    this.runQueryOnLesson(sl.id);
   }
 
   onAssignmentChange(newAssignmentEvent){
@@ -159,7 +159,7 @@ class App extends Component {
     this.setState({
         selectedAssignment: sa
     })
-    this.runProblemQuery(sa.id);
+    this.runQueryOnAssignment(sa.id);
   }
 
   render() {
