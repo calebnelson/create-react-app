@@ -1,5 +1,5 @@
 class GraphQLClient {
-  constructor(host, port) {
+  constructor(host) {
     this.uri = `${host}/graphql`
     this.jwt = undefined
   }
@@ -27,8 +27,7 @@ class GraphQLClient {
 }
 
 const host = 'https://ardent-api-next.ardentlabs.io'
-const port = 80
-const client = new GraphQLClient(host, port);
+const client = new GraphQLClient(host);
 
 export const query = client.query
 export const authenticate = client.authenticate
