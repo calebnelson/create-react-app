@@ -1,34 +1,38 @@
 class GraphQLClient {
   constructor(host) {
-    this.uri = `${host}/graphql`
-    this.jwt = undefined
+    this.uri = `${host}/graphql`;
+    this.jwt = undefined;
   }
 
-  authenticate = () => {
-  }
+  authenticate = () => {};
 
   clearAuth = () => {
-    this.jwt = undefined
-  }
+    this.jwt = undefined;
+  };
 
-  query = (graphQLQuery, variables) =>
-    fetch(this.uri, {
-      method: "POST",
-      headers: new Headers({
-        'Content-Type': 'application/json',
-        Authorization: this.jwt,
-      }),
-      body: JSON.stringify({
-        query: graphQLQuery,
-        variables,
-      }),
-    })
-
+  query = async (graphQLQuery, variables) => {
+    try {
+      const res = await fetch(this.uri, {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Authorization: this.jwt,
+        }),
+        body: JSON.stringify({
+          query: graphQLQuery,
+          variables,
+        }),
+      });
+      return res.json();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 }
 
-const host = 'https://ardent-api-next.ardentlabs.io'
+const host = 'https://ardent-api-next.ardentlabs.io';
 const client = new GraphQLClient(host);
 
-export const query = client.query
-export const authenticate = client.authenticate
-export const clearAuth = client.clearAuth
+export const query = client.query;
+export const authenticate = client.authenticate;
+export const clearAuth = client.clearAuth;
