@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { onClassChange, onLessonChange, onAssignmentChange, runQueryOnClass, runQueryOnLesson, runQueryOnAssignment } from  './actions'
+import { onClassChange, onLessonChange, onAssignmentChange, runQueryOnClass, runQueryOnLesson, runQueryOnAssignment, runQueryOnRoot } from  './actions'
 import Selectors from './Selectors'
 
 const mapStateToProps = state => {
@@ -12,6 +12,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onLoad: () => { dispatch(runQueryOnRoot()); },
         onClassChange: changeEvent => { 
             dispatch(onClassChange(changeEvent.target.value));
             dispatch(runQueryOnClass(changeEvent.target.value));

@@ -4,6 +4,7 @@ function Classes(props){
     return(
         <select id="classSelector" key="classSelectorField" onChange={props.onChange}>
             <option value="" selected disabled hidden>Select Class</option>
+            <option value="" >Select Class?</option>
             {props.classes ? props.classes.map((data) => 
                 <option value={data.id} key={data.id}>
                     {data ? data.code : "Getting Classes..."}
@@ -41,8 +42,12 @@ function Assignments(props){
 
 
 
-class Selectors extends Component{
+class Selectors extends Component{    
     render() {
+        if (this.props.onLoad){
+            this.props.onLoad();
+        }
+
         return(
             <div className="selectors">
                 <Classes key="classSelector"
