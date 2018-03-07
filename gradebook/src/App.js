@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+
 import Selectors from './Selectors';
 import GradeTable from './GradeTable';
+
 import { query } from './graphql';
 
 const queryOnRoot = `
@@ -80,7 +82,7 @@ class App extends Component {
 
   async runQueryOnRoot() {
     const queryRes = await query(queryOnRoot);
-    var sortedClasses = queryRes.data.classrooms.sort(function(a, b) {
+    const sortedClasses = queryRes.data.classrooms.sort(function(a, b) {
       return new Date(b.startDate) - new Date(a.startDate);
     });
     this.setState({ classes: sortedClasses });
@@ -89,10 +91,10 @@ class App extends Component {
   async runQueryOnClass(classID) {
     const variables = '{ "classID": "'.concat(classID).concat('" }');
     const queryRes = await query(queryOnClass, variables);
-    var sortedLessons = queryRes.data.classroom.lessons.sort(function(a, b) {
+    const sortedLessons = queryRes.data.classroom.lessons.sort(function(a, b) {
       return a.lessonPlan.order - b.lessonPlan.order;
     });
-    var sortedEnrollments = queryRes.data.classroom.enrollments.sort(function(
+    const sortedEnrollments = queryRes.data.classroom.enrollments.sort(function(
       a,
       b
     ) {
@@ -104,7 +106,7 @@ class App extends Component {
   async runQueryOnLesson(lessonID) {
     const variables = '{ "lessonID": "'.concat(lessonID).concat('" }');
     const queryRes = await query(queryOnLesson, variables);
-    var sortedAssignments = queryRes.data.lesson.assignments.sort(function(
+    const sortedAssignments = queryRes.data.lesson.assignments.sort(function(
       a,
       b
     ) {
@@ -114,9 +116,9 @@ class App extends Component {
   }
 
   async runQueryOnAssignment(assignmentID) {
-    var variables = '{ "assignmentID": "'.concat(assignmentID).concat('" }');
+    const variables = '{ "assignmentID": "'.concat(assignmentID).concat('" }');
     const queryRes = await query(queryOnAssignment, variables);
-    var sortedProblems = queryRes.data.assignment.problemSet.problems.sort(
+    const sortedProblems = queryRes.data.assignment.problemSet.problems.sort(
       function(a, b) {
         return a.order - b.order;
       }
@@ -125,9 +127,9 @@ class App extends Component {
   }
 
   onClassChange(newClassEvent) {
-    var classID = newClassEvent.target.value;
-    var index = this.state.classes.findIndex(x => x.id === classID);
-    var sc = this.state.classes[index];
+    const classID = newClassEvent.target.value;
+    const index = this.state.classes.findIndex(x => x.id === classID);
+    const sc = this.state.classes[index];
     this.setState({
       lessons: [],
       assignments: [],
@@ -139,9 +141,9 @@ class App extends Component {
   }
 
   onLessonChange(newLessonEvent) {
-    var lessonID = newLessonEvent.target.value;
-    var index = this.state.lessons.findIndex(x => x.id === lessonID);
-    var sl = this.state.lessons[index];
+    const lessonID = newLessonEvent.target.value;
+    const index = this.state.lessons.findIndex(x => x.id === lessonID);
+    const sl = this.state.lessons[index];
     this.setState({
       assignments: [],
       selectedLesson: sl,
@@ -151,9 +153,9 @@ class App extends Component {
   }
 
   onAssignmentChange(newAssignmentEvent) {
-    var assignmentID = newAssignmentEvent.target.value;
-    var index = this.state.assignments.findIndex(x => x.id === assignmentID);
-    var sa = this.state.assignments[index];
+    const assignmentID = newAssignmentEvent.target.value;
+    const index = this.state.assignments.findIndex(x => x.id === assignmentID);
+    const sa = this.state.assignments[index];
     this.setState({
       selectedAssignment: sa,
     });
