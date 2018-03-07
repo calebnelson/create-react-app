@@ -1,4 +1,4 @@
-import 'redux';
+import { combineReducers } from 'redux';
 
 const defaultState = {
   classes: [],
@@ -206,7 +206,7 @@ const selectedLessonReducer = (state = defaultState, action) => {
   }
 };
 
-const selectedAssignmentReducer = (state, action) => {
+const selectedAssignmentReducer = (state = defaultState, action) => {
   switch (action.type) {
     case 'CLASS_CHANGE':
       return {
@@ -227,3 +227,16 @@ const selectedAssignmentReducer = (state, action) => {
       return state;
   }
 };
+
+const gradebookReducers = combineReducers({
+  classesReducer,
+  lessonsReducer,
+  assignmentsReducer,
+  problemsReducer,
+  enrollmentsReducer,
+  selectedClassReducer,
+  selectedLessonReducer,
+  selectedAssignmentReducer,
+});
+
+export default gradebookReducers;

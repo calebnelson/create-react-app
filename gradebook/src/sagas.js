@@ -78,7 +78,8 @@ export function* queryRoot(action) {
 
 export function* queryClass(action) {
   try {
-    const res = yield call(query, queryOnClass, action.payload);
+    const variables = '{ "classID": "'.concat(action.payload).concat('" }');
+    const res = yield call(query, queryOnClass, variables);
     const sortedLessons = res.data.classroom.lessons.sort(
       (a, b) => a.lessonPlan.order - b.lessonPlan.order
     );
@@ -99,7 +100,8 @@ export function* queryClass(action) {
 
 export function* queryLesson(action) {
   try {
-    const res = yield call(query, queryOnLesson, action.payload);
+    const variables = '{ "lessonID": "'.concat(action.payload).concat('" }');
+    const res = yield call(query, queryOnLesson, variables);
     const sortedAssignments = res.data.lesson.assignments.sort(
       (a, b) => a.problemSet.order - b.problemSet.order
     );
@@ -117,7 +119,10 @@ export function* queryLesson(action) {
 
 export function* queryAssignment(action) {
   try {
-    const res = yield call(query, queryOnAssignment, action.payload);
+    const variables = '{ "assignmentID": "'
+      .concat(action.payload)
+      .concat('" }');
+    const res = yield call(query, queryOnAssignment, variables);
     const sortedProblems = res.data.assignment.problemSet.problems.sort(
       (a, b) => a.order - b.order
     );
