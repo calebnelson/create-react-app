@@ -138,7 +138,7 @@ export function* queryAssignment(action) {
   }
 }
 
-export default function* main() {
+export default function* sagas() {
   yield all([
     takeLatest('QUERY_ROOT', queryRoot),
     takeLatest('QUERY_CLASS', queryClass),
