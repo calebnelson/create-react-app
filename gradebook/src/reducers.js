@@ -40,7 +40,7 @@ const classesReducer = (state = defaultState, action) => {
 
 const lessonsReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CLASS_CHANGE':
+    case 'CHANGE_CLASS':
       return {
         ...state,
         lessons: defaultState.lessons,
@@ -71,12 +71,12 @@ const lessonsReducer = (state = defaultState, action) => {
 
 const assignmentsReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CLASS_CHANGE':
+    case 'CHANGE_CLASS':
       return {
         ...state,
         assignments: defaultState.assignments,
       };
-    case 'LESSONS_CHANGE':
+    case 'CHANGE_LESSON':
       return {
         ...state,
         assignments: defaultState.assignments,
@@ -107,17 +107,17 @@ const assignmentsReducer = (state = defaultState, action) => {
 
 const problemsReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CLASS_CHANGE':
+    case 'CHANGE_CLASS':
       return {
         ...state,
         problems: defaultState.problems,
       };
-    case 'LESSONS_CHANGE':
+    case 'CHANGE_LESSON':
       return {
         ...state,
         problems: defaultState.problems,
       };
-    case 'ASSIGNMENT_CHANGE':
+    case 'CHANGE_ASSIGNMENT':
       return {
         ...state,
         problems: defaultState.problems,
@@ -148,7 +148,7 @@ const problemsReducer = (state = defaultState, action) => {
 
 const enrollmentsReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CLASS_CHANGE':
+    case 'CHANGE_CLASS':
       return {
         ...state,
         enrollments: defaultState.enrollments,
@@ -179,7 +179,7 @@ const enrollmentsReducer = (state = defaultState, action) => {
 
 const selectedClassReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CLASS_CHANGE':
+    case 'CHANGE_CLASS':
       return {
         ...state,
         selectedClass: action.payload,
@@ -191,12 +191,12 @@ const selectedClassReducer = (state = defaultState, action) => {
 
 const selectedLessonReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CLASS_CHANGE':
+    case 'CHANGE_CLASS':
       return {
         ...state,
         selectedLesson: undefined,
       };
-    case 'LESSON_CHANGE':
+    case 'CHANGE_LESSON':
       return {
         ...state,
         selectedLesson: action.payload,
@@ -208,17 +208,17 @@ const selectedLessonReducer = (state = defaultState, action) => {
 
 const selectedAssignmentReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CLASS_CHANGE':
+    case 'CHANGE_CLASS':
       return {
         ...state,
         selectedAssignment: undefined,
       };
-    case 'LESSON_CHANGE':
+    case 'CHANGE_LESSON':
       return {
         ...state,
         selectedAssignment: undefined,
       };
-    case 'ASSIGNMENT_CHANGE':
+    case 'CHANGE_ASSIGNMENT':
       return {
         ...state,
         selectedAssignment: action.payload,

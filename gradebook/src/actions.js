@@ -18,16 +18,16 @@ export const runQueryOnAssignment = assignmentID => ({
 });
 
 export const onClassChange = classID => ({
-  type: 'CLASS_CHANGE',
+  type: 'CHANGE_CLASS',
   payload: classID,
 });
 
 export const onLessonChange = lessonID => ({
-  type: 'LESSON_CHANGE',
+  type: 'CHANGE_LESSON',
   payload: lessonID,
 });
 
 export const onAssignmentChange = assignmentID => ({
-  type: 'ASSIGNMENT_CHANGE',
+  type: 'CHANGE_ASSIGNMENT',
   payload: assignmentID,
 });

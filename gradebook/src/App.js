@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Selectors from './Selectors';
+import SelectorsContainer from './SelectorsContainer';
 import GradeTable from './GradeTable';
 
 import { query } from './graphql';
@@ -178,8 +179,7 @@ class App extends Component {
             onLessonChange={i => this.onLessonChange(i)}
             onAssignmentChange={i => this.onAssignmentChange(i)}
           />
-        </div>
-        <div>
+          <SelectorsContainer />
           <GradeTable
             assignment={this.state.selectedAssignment}
             enrollments={this.state.enrollments}
