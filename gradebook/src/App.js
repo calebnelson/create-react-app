@@ -171,14 +171,14 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div>
-          <Selectors
+          {/* <Selectors
             classes={this.state.classes}
             lessons={this.state.lessons}
             assignments={this.state.assignments}
             onClassChange={i => this.onClassChange(i)}
             onLessonChange={i => this.onLessonChange(i)}
             onAssignmentChange={i => this.onAssignmentChange(i)}
-          />
+          /> */}
           <SelectorsContainer />
           <GradeTable
             assignment={this.state.selectedAssignment}

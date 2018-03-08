@@ -13,7 +13,7 @@ import registerServiceWorker from './registerServiceWorker';
 const sagaMiddleware = createSagaMiddleware();
 let store = createStore(gradebookReducers, applyMiddleware(sagaMiddleware));
 
-sagaMiddleware.run(mySaga);
+sagaMiddleware.run(sagas);
 
 ReactDOM.render(
   <Provider store={store}>
