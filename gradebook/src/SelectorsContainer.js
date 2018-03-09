@@ -3,9 +3,6 @@ import {
   onClassChange,
   onLessonChange,
   onAssignmentChange,
-  runQueryOnClass,
-  runQueryOnLesson,
-  runQueryOnAssignment,
   runQueryOnRoot,
 } from './actions';
 import Selectors from './Selectors';
@@ -25,15 +22,12 @@ const mapDispatchToProps = dispatch => {
     },
     onClassChange: changeEvent => {
       dispatch(onClassChange(changeEvent.target.value));
-      dispatch(runQueryOnClass(changeEvent.target.value));
     },
     onLessonChange: changeEvent => {
       dispatch(onLessonChange(changeEvent.target.value));
-      dispatch(runQueryOnLesson(changeEvent.target.value));
     },
     onAssignmentChange: changeEvent => {
       dispatch(onAssignmentChange(changeEvent.target.value));
-      dispatch(runQueryOnAssignment(changeEvent.target.value));
     },
   };
 };

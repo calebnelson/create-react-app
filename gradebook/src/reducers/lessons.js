@@ -6,14 +6,10 @@ const defaultState = {
 
 export const lessonsReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CHANGE_CLASS':
-      return {
-        ...state,
-        lessons: defaultState.lessons,
-      };
     case 'QUERY_CLASS':
       return {
         ...state,
+        lessons: defaultState.lessons,
         loading: true,
       };
     case 'QUERY_CLASS_SUCCESS':
@@ -28,7 +24,6 @@ export const lessonsReducer = (state = defaultState, action) => {
         ...state,
         error: payload.message || payload.toString() || 'Unknown error',
         loading: false,
-        lessons: defaultState.lessons,
       };
     default:
       return state;

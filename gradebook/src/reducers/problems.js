@@ -6,17 +6,12 @@ const defaultState = {
 
 export const problemsReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CHANGE_CLASS':
+    case 'QUERY_CLASS':
       return {
         ...state,
         problems: defaultState.problems,
       };
-    case 'CHANGE_LESSON':
-      return {
-        ...state,
-        problems: defaultState.problems,
-      };
-    case 'CHANGE_ASSIGNMENT':
+    case 'QUERY_LESSON':
       return {
         ...state,
         problems: defaultState.problems,
@@ -24,6 +19,7 @@ export const problemsReducer = (state = defaultState, action) => {
     case 'QUERY_ASSIGNMENT':
       return {
         ...state,
+        problems: defaultState.problems,
         loading: true,
       };
     case 'QUERY_ASSIGNMENT_SUCCESS':
@@ -38,7 +34,6 @@ export const problemsReducer = (state = defaultState, action) => {
         ...state,
         error: payload.message || payload.toString() || 'Unknown error',
         loading: false,
-        problems: defaultState.problems,
       };
     default:
       return state;

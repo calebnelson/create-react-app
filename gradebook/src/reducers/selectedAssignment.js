@@ -4,17 +4,17 @@ const defaultState = {
 
 export const selectedAssignmentReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CHANGE_CLASS':
+    case 'QUERY_CLASS':
       return {
         ...state,
         selectedAssignment: undefined,
       };
-    case 'CHANGE_LESSON':
+    case 'QUERY_LESSON':
       return {
         ...state,
         selectedAssignment: undefined,
       };
-    case 'CHANGE_ASSIGNMENT':
+    case 'QUERY_ASSIGNMENT':
       return {
         ...state,
         selectedAssignment: action.payload,
