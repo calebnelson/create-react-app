@@ -6,12 +6,16 @@ import createSagaMiddleware from 'redux-saga';
 
 import './index.css';
 import App from './App';
-import gradebookReducers from './reducers.js';
+import gradebookReducers from './reducers/reducers.js';
 import sagas from './sagas.js';
 import registerServiceWorker from './registerServiceWorker';
 
 const sagaMiddleware = createSagaMiddleware();
-let store = createStore(gradebookReducers, applyMiddleware(sagaMiddleware));
+let store = createStore(
+  gradebookReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  applyMiddleware(sagaMiddleware)
+);
 
 sagaMiddleware.run(sagas);
 
