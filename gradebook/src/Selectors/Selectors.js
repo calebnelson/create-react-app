@@ -91,21 +91,27 @@ class Selectors extends Component {
   render() {
     return (
       <div className="selectors">
+        Class:{' '}
         <Classes
           key="classSelector"
           classes={this.props.classes}
           onChange={this.props.onClassChange}
         />
+        <br />
+        Lesson:{' '}
         <Lessons
           key="lessonSelector"
           lessons={this.props.lessons}
           onChange={this.props.onLessonChange}
         />
+        <br />
+        Assignment:{' '}
         <Assignments
           key="assignmentSelector"
           assignments={this.props.assignments}
           onChange={this.props.onAssignmentChange}
         />
+        <br />
       </div>
     );
   }
