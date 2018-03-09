@@ -9,9 +9,9 @@ import Selectors from './Selectors';
 
 const mapStateToProps = state => {
   return {
-    classes: state.classes,
-    lessons: state.lessons,
-    assignments: state.assignments,
+    classes: state.classesReducer.classes,
+    lessons: state.lessonsReducer.lessons,
+    assignments: state.assignmentsReducer.assignments,
   };
 };
 
