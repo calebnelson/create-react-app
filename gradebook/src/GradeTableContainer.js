@@ -5,7 +5,7 @@ const mapStateToProps = state => {
   return {
     assignment: state.selectedAssignmentReducer.selectedAssignment,
     problems: state.problemsReducer.problems,
-    assignments: state.enrollmentsReducer.enrollments,
+    enrollments: state.enrollmentsReducer.enrollments,
   };
 };
 
