@@ -6,8 +6,8 @@ import createSagaMiddleware from 'redux-saga';
 
 import './index.css';
 import App from './App';
-import gradebookReducers from './reducers/reducers.js';
-import sagas from './sagas.js';
+import gradebookReducers from './Redux/reducers/reducers.js';
+import sagas from './Redux/sagas.js';
 import registerServiceWorker from './registerServiceWorker';
 
 const sagaMiddleware = createSagaMiddleware();

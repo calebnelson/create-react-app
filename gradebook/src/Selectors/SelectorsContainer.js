@@ -4,7 +4,7 @@ import {
   onLessonChange,
   onAssignmentChange,
   runQueryOnRoot,
-} from './actions';
+} from '../Redux/actions';
 import Selectors from './Selectors';
 
 const mapStateToProps = state => {

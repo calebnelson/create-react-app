@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import SelectorsContainer from './SelectorsContainer';
+import SelectorsContainer from './Selectors/SelectorsContainer';
 import GradeTableContainer from './GradeTable/GradeTableContainer';
 
 class App extends Component {
