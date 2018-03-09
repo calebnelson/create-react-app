@@ -20,9 +20,16 @@ class GradeTable extends Component {
                   <td>{data.student.lastName}</td>
                   <td>0</td>
                   <td>0%</td>
-                  {this.props.problems.map(data => (
+                  {this.props.problems.map(problemData => (
                     <td>
-                      <input type="text" />
+                      <input
+                        type="number"
+                        min="0"
+                        max="1"
+                        name={data.student.lastName.concat(
+                          problemData.order.toString()
+                        )}
+                      />
                     </td>
                   ))}
                 </tr>
@@ -31,6 +38,7 @@ class GradeTable extends Component {
               'No Students'
             )}
           </table>
+          <input type="submit" value="Submit" />
         </form>
       </div>
     );
