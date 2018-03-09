@@ -4,7 +4,7 @@ import './App.css';
 
 import Selectors from './Selectors';
 import SelectorsContainer from './SelectorsContainer';
-import GradeTable from './GradeTable';
+import GradeTableContainer from './GradeTableContainer';
 
 import { query } from './graphql';
 
@@ -18,7 +18,7 @@ class App extends Component {
         </header>
         <div>
           <SelectorsContainer />
-          <GradeTable />
+          <GradeTableContainer />
         </div>
       </div>
     );
