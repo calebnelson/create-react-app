@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import SelectorsContainer from './SelectorsContainer';
-import GradeTableContainer from './GradeTableContainer';
+import GradeTableContainer from './GradeTable/GradeTableContainer';
 
 class App extends Component {
   render() {
