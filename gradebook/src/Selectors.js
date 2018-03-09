@@ -10,7 +10,6 @@ function Classes(props) {
       <option value="" selected disabled hidden>
         Select Class
       </option>
-      <option value="">Select Class?</option>
       {props.classes ? (
         props.classes.map(data => (
           <option value={data.id} key={data.id}>
