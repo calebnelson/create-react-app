@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import Selectors from './Selectors';
 import SelectorsContainer from './SelectorsContainer';
 import GradeTableContainer from './GradeTableContainer';
-
-import { query } from './graphql';
 
 class App extends Component {
   render() {
