@@ -13,20 +13,24 @@ class GradeTable extends Component {
             {this.props.problems.map(data => <th> {data.order} </th>)}
           </tr>
           {this.props.enrollments ? (
-            this.props.enrollments.map(data => (
+            this.props.enrollments.map(studentData => (
               <tr>
-                <td>{data.student.firstName}</td>
-                <td>{data.student.lastName}</td>
+                <td>{studentData.student.firstName}</td>
+                <td>{studentData.student.lastName}</td>
                 <td>0</td>
                 <td>0%</td>
                 {this.props.problems.map(problemData => (
                   <td>
-                    <form>
+                    <form
+                      name={studentData.student.lastName.concat(
+                        problemData.order.toString()
+                      )}
+                    >
                       <input
                         type="number"
                         min="0"
                         max="1"
-                        name={data.student.lastName.concat(
+                        name={studentData.student.lastName.concat(
                           problemData.order.toString()
                         )}
                       />
