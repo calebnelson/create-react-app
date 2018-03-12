@@ -17,6 +17,7 @@ const queryOnClass = `
       enrollments {
         id
         student {
+          id
           firstName
           lastName
         }
