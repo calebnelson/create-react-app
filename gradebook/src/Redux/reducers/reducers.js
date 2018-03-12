@@ -8,6 +8,7 @@ import { enrollmentsReducer } from './enrollments';
 import { selectedClassReducer } from './selectedClass';
 import { selectedLessonReducer } from './selectedLesson';
 import { selectedAssignmentReducer } from './selectedAssignment';
+import { submissionsReducer } from './submissions';
 
 const gradebookReducers = combineReducers({
   classesReducer,
@@ -18,6 +19,7 @@ const gradebookReducers = combineReducers({
   selectedClassReducer,
   selectedLessonReducer,
   selectedAssignmentReducer,
+  submissionsReducer,
 });
 
 export default gradebookReducers;

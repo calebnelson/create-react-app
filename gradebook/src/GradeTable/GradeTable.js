@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
 
+function Cell(props) {
+  return (
+    <input
+      type="number"
+      min="0"
+      max="1"
+      onInput={props.onInput && props.onInput()}
+    />
+  );
+}
+
 class GradeTable extends Component {
   render() {
     return (
@@ -21,20 +32,7 @@ class GradeTable extends Component {
                 <td>0%</td>
                 {this.props.problems.map(problemData => (
                   <td>
-                    <form
-                      name={studentData.student.lastName.concat(
-                        problemData.order.toString()
-                      )}
-                    >
-                      <input
-                        type="number"
-                        min="0"
-                        max="1"
-                        name={studentData.student.lastName.concat(
-                          problemData.order.toString()
-                        )}
-                      />
-                    </form>
+                    <Cell />
                   </td>
                 ))}
               </tr>
