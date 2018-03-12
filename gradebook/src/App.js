@@ -11,6 +11,7 @@ class App extends Component {
         <h1>Ardent Academy Gradebook App</h1>
         <div>
           <SelectorsContainer />
+          <br />
           <GradeTableContainer />
         </div>
       </div>
