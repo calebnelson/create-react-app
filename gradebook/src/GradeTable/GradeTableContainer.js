@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import GradeTable from './GradeTable';
+import { onSubmissionChange } from '../Redux/actions';
 
 const processEvent = inputEvent => {
   //TODO: return the studentId, problemNum, and response from the inputEvent

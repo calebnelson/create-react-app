@@ -23,7 +23,7 @@ export const submissionsReducer = (state = defaultState, action) => {
     case 'QUERY_ASSIGNMENT':
       return {
         ...state,
-        submissions: submissions.map(data => {
+        submissions: state.submissions.map(data => {
           return {
             ...data,
             assignmentId: action.payload,
@@ -33,14 +33,14 @@ export const submissionsReducer = (state = defaultState, action) => {
     case 'CHANGE_SUBMISSION':
       return {
         ...state,
-        submissions: submissions.map(data => {
+        submissions: state.submissions.map(data => {
           if (data.studentId === action.studentId) {
             return {
               ...data,
-              responses: responses
+              responses: state.responses
                 .slice(0, action.problemNum - 1)
                 .concat([action.response])
-                .concat(responses.slice(action.problemNum)),
+                .concat(state.responses.slice(action.problemNum)),
             };
           } else {
             return {
