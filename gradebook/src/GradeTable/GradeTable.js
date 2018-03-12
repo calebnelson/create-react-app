@@ -4,24 +4,24 @@ class GradeTable extends Component {
   render() {
     return (
       <div>
-        <form>
-          <table>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Total</th>
-              <th>Percent</th>
-              {this.props.problems.map(data => <th> {data.order} </th>)}
-            </tr>
-            {this.props.enrollments ? (
-              this.props.enrollments.map(data => (
-                <tr>
-                  <td>{data.student.firstName}</td>
-                  <td>{data.student.lastName}</td>
-                  <td>0</td>
-                  <td>0%</td>
-                  {this.props.problems.map(problemData => (
-                    <td>
+        <table>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Total</th>
+            <th>Percent</th>
+            {this.props.problems.map(data => <th> {data.order} </th>)}
+          </tr>
+          {this.props.enrollments ? (
+            this.props.enrollments.map(data => (
+              <tr>
+                <td>{data.student.firstName}</td>
+                <td>{data.student.lastName}</td>
+                <td>0</td>
+                <td>0%</td>
+                {this.props.problems.map(problemData => (
+                  <td>
+                    <form>
                       <input
                         type="number"
                         min="0"
@@ -30,16 +30,16 @@ class GradeTable extends Component {
                           problemData.order.toString()
                         )}
                       />
-                    </td>
-                  ))}
-                </tr>
-              ))
-            ) : (
-              'No Students'
-            )}
-          </table>
-          <input type="submit" value="Submit" />
-        </form>
+                    </form>
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            'No Students'
+          )}
+        </table>
+        <input type="submit" value="Submit" />
       </div>
     );
   }
