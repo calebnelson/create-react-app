@@ -30,6 +30,18 @@ export const submissionsReducer = (state = defaultState, action) => {
           };
         }),
       };
+    case 'QUERY_ASSIGNMENT_SUCCESS':
+      return {
+        ...state,
+        submissions: state.submissions.map(data => {
+          return {
+            ...data,
+            responses: action.payload.problems.map(() => {
+              return undefined;
+            }),
+          };
+        }),
+      };
     case 'CHANGE_SUBMISSION':
       return {
         ...state,
