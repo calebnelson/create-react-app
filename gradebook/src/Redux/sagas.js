@@ -2,48 +2,48 @@ import { all, call, put, select, takeLatest } from 'redux-saga/effects';
 import { query } from './graphql';
 
 const queryOnRoot = `
-    query{
-        classrooms {
-            id
-            code
-            startDate
-        }
-    }
+  query{
+      classrooms {
+          id
+          code
+          startDate
+      }
+  }
 `;
 
 const queryOnClass = `
-    query queryOnClass($classID: ID!) {
-      classroom(id: $classID) {
-        enrollments {
-          id
-          student {
-            firstName
-            lastName
-          }
+  query queryOnClass($classID: ID!) {
+    classroom(id: $classID) {
+      enrollments {
+        id
+        student {
+          firstName
+          lastName
         }
-        lessons {
-          id
-          lessonPlan {
-            title
-            order
-          }
+      }
+      lessons {
+        id
+        lessonPlan {
+          title
+          order
         }
       }
     }
+  }
 `;
 
 const queryOnLesson = `
-    query queryOnLesson($lessonID: ID!) {
-        lesson(id: $lessonID) {
-            assignments {
-                id
-                problemSet {
-                    title
-                    order
-                }
-            }
-        }
-    }
+  query queryOnLesson($lessonID: ID!) {
+      lesson(id: $lessonID) {
+          assignments {
+              id
+              problemSet {
+                  title
+                  order
+              }
+          }
+      }
+  }
 `;
 
 const queryOnAssignment = `
@@ -51,6 +51,7 @@ const queryOnAssignment = `
     assignment(id: $assignmentID) {
       problemSet {
         problems {
+          id
           order
         }
       }
