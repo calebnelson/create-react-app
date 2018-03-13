@@ -30,16 +30,25 @@ class GradeTable extends Component {
             <th>Percent</th>
             {this.props.columns.map(data => <th> {data} </th>)}
           </tr>
-          {this.props.enrollments ? (
-            this.props.enrollments.map(studentData => (
+          {this.props.submissions ? (
+            this.props.submissions.map(studentData => (
               <tr>
-                <td>{studentData.student.firstName}</td>
-                <td>{studentData.student.lastName}</td>
-                <td>0</td>
-                <td>0%</td>
+                <td>{studentData.firstName}</td>
+                <td>{studentData.lastName}</td>
+                <td>
+                  {studentData.responses &&
+                    studentData.responses.reduce((a, b) => {
+                      return a + b;
+                    }, 0)}
+                </td>
+                <td>{'0%'}</td>
                 {this.props.problems.map(problemData => (
                   <td>
-                    <Cell />
+                    <Cell
+                      studentId={studentData.studentId}
+                      problemNum={problemData.order}
+                      // onInput={this.props.onInput}
+                    />
                   </td>
                 ))}
               </tr>

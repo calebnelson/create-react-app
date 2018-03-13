@@ -16,6 +16,8 @@ export const submissionsReducer = (state = defaultState, action) => {
         submissions: action.payload.enrollments.map(data => {
           return {
             studentId: data.student.id,
+            firstName: data.student.firstName,
+            lastName: data.student.lastName,
             assignmentId: undefined,
             responses: [],
           };
