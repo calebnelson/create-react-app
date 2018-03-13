@@ -1,5 +1,6 @@
 const defaultState = {
   submissions: [],
+  columns: [],
 };
 
 export const submissionsReducer = (state = defaultState, action) => {
@@ -19,6 +20,7 @@ export const submissionsReducer = (state = defaultState, action) => {
             responses: [],
           };
         }),
+        columns: [],
       };
     case 'QUERY_ASSIGNMENT':
       return {
@@ -40,6 +42,9 @@ export const submissionsReducer = (state = defaultState, action) => {
               return undefined;
             }),
           };
+        }),
+        columns: action.payload.problems.map(() => {
+          return 0;
         }),
       };
     case 'CHANGE_SUBMISSION':

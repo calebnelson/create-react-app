@@ -17,11 +17,18 @@ class GradeTable extends Component {
       <div>
         <table>
           <tr>
+            <th />
+            <th />
+            <th />
+            <th />
+            {this.props.problems.map(data => <th> {data.order} </th>)}
+          </tr>
+          <tr>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Total</th>
             <th>Percent</th>
-            {this.props.problems.map(data => <th> {data.order} </th>)}
+            {this.props.columns.map(data => <th> {data} </th>)}
           </tr>
           {this.props.enrollments ? (
             this.props.enrollments.map(studentData => (

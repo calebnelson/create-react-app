@@ -11,7 +11,8 @@ const mapStateToProps = state => {
     assignment: state.selectedAssignmentReducer.selectedAssignment,
     problems: state.problemsReducer.problems,
     enrollments: state.enrollmentsReducer.enrollments,
-    submissions: state.enrollmentsReducer.submissions,
+    submissions: state.submissionsReducer.submissions,
+    columns: state.submissionsReducer.columns,
   };
 };
 
