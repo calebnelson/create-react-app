@@ -7,7 +7,7 @@ function Cell(props) {
       id={props.studentId.concat(props.problemNum)}
       min="0"
       max="1"
-      onChange={props.onChange(props.studentId, props.problemNum)}
+      onChange={() => props.onChange(props.studentId, props.problemNum)}
     />
   );
 }
@@ -38,10 +38,11 @@ class GradeTable extends Component {
                   <td>{studentData.firstName}</td>
                   <td>{studentData.lastName}</td>
                   <td>
-                    {studentData.responses &&
+                    0
+                    {/* {studentData.responses &&
                       studentData.responses.reduce((a, b) => {
                         return a + b;
-                      }, 0)}
+                      }, 0)} */}
                   </td>
                   <td>{'0%'}</td>
                   {this.props.problems.map(problemData => (
