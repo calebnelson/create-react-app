@@ -2,10 +2,6 @@ import { connect } from 'react-redux';
 import GradeTable from './GradeTable';
 import { onSubmissionChange } from '../Redux/actions';
 
-const processEvent = inputEvent => {
-  //TODO: return the studentId, problemNum, and response from the inputEvent
-};
-
 const mapStateToProps = state => {
   return {
     assignment: state.selectedAssignmentReducer.selectedAssignment,
@@ -17,8 +13,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onInput: inputEvent => {
-      dispatch(onSubmissionChange(processEvent(inputEvent)));
+    onChange: (studentId, problemNum) => {
+      dispatch(
+        onSubmissionChange(
+          studentId,
+          problemNum,
+          document.getElementById(studentId.concat(problemNum))
+        )
+      );
     },
   };
 };

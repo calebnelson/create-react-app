@@ -4,9 +4,10 @@ function Cell(props) {
   return (
     <input
       type="number"
+      id={props.studentId.concat(props.problemNum)}
       min="0"
       max="1"
-      onInput={props.onInput && props.onInput()}
+      onChange={props.onChange(props.studentId, props.problemNum)}
     />
   );
 }
@@ -47,7 +48,7 @@ class GradeTable extends Component {
                     <Cell
                       studentId={studentData.studentId}
                       problemNum={problemData.order}
-                      // onInput={this.props.onInput}
+                      onChange={this.props.onChange}
                     />
                   </td>
                 ))}

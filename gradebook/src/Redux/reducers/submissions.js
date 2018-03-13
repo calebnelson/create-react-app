@@ -56,10 +56,10 @@ export const submissionsReducer = (state = defaultState, action) => {
           if (data.studentId === action.studentId) {
             return {
               ...data,
-              responses: state.responses
+              responses: data.responses
                 .slice(0, action.problemNum - 1)
                 .concat([action.response])
-                .concat(state.responses.slice(action.problemNum)),
+                .concat(data.responses.slice(action.problemNum)),
             };
           } else {
             return {
@@ -67,6 +67,10 @@ export const submissionsReducer = (state = defaultState, action) => {
             };
           }
         }),
+        // columns: state.columns
+        // .slice(0, action-problemNum - 1)
+        // .concat(state.submissions.reduce())
+        // .concat(state.columns.slice(action.problemNum)),
       };
     default:
       return state;
