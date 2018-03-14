@@ -14,7 +14,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onChange: (studentId, problemNum) => {
-      console.log('onChange called');
       dispatch(
         onSubmissionChange(
           studentId,

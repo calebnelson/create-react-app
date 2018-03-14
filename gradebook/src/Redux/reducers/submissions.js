@@ -50,6 +50,7 @@ export const submissionsReducer = (state = defaultState, action) => {
         }),
       };
     case 'CHANGE_SUBMISSION':
+      const problemNum = action.problemNum;
       return {
         ...state,
         submissions: state.submissions.map(data => {
@@ -57,9 +58,9 @@ export const submissionsReducer = (state = defaultState, action) => {
             return {
               ...data,
               responses: data.responses
-                .slice(0, action.problemNum - 1)
+                .slice(0, problemNum - 1)
                 .concat([action.response])
-                .concat(data.responses.slice(action.problemNum)),
+                .concat(data.responses.slice(problemNum)),
             };
           } else {
             return {
@@ -67,10 +68,18 @@ export const submissionsReducer = (state = defaultState, action) => {
             };
           }
         }),
-        // columns: state.columns
-        // .slice(0, action-problemNum - 1)
-        // .concat(state.submissions.reduce())
-        // .concat(state.columns.slice(action.problemNum)),
+        columns: state.columns
+          .slice(0, problemNum - 1)
+          .concat([
+            state.submissions.reduce((a, data) => {
+              const b = data.responses ? data.responses[problemNum] : 0;
+              if (!a) {
+                a = 0;
+              }
+              return b ? a + b : a;
+            }, 0),
+          ])
+          .concat(state.columns.slice(problemNum)),
       };
     default:
       return state;
