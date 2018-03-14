@@ -12,6 +12,32 @@ function Cell(props) {
   );
 }
 
+function TableRow(props) {
+  return (
+    <tr>
+      <td>{props.firstName}</td>
+      <td>{props.lastName}</td>
+      <td>
+        0
+        {/* {studentData.responses &&
+        studentData.responses.reduce((a, b) => {
+          return a + b;
+        }, 0)} */}
+      </td>
+      <td>{'0%'}</td>
+      {props.problems.map(problemData => (
+        <td>
+          <Cell
+            studentId={props.studentId}
+            problemNum={problemData.order}
+            onChange={props.onChange}
+          />
+        </td>
+      ))}
+    </tr>
+  );
+}
+
 class GradeTable extends Component {
   render() {
     return (
@@ -34,27 +60,13 @@ class GradeTable extends Component {
             </tr>
             {this.props.submissions ? (
               this.props.submissions.map(studentData => (
-                <tr>
-                  <td>{studentData.firstName}</td>
-                  <td>{studentData.lastName}</td>
-                  <td>
-                    0
-                    {/* {studentData.responses &&
-                      studentData.responses.reduce((a, b) => {
-                        return a + b;
-                      }, 0)} */}
-                  </td>
-                  <td>{'0%'}</td>
-                  {this.props.problems.map(problemData => (
-                    <td>
-                      <Cell
-                        studentId={studentData.studentId}
-                        problemNum={problemData.order}
-                        onChange={this.props.onChange}
-                      />
-                    </td>
-                  ))}
-                </tr>
+                <TableRow
+                  firstName={studentData.firstName}
+                  lastName={studentData.lastName}
+                  problems={this.props.problems}
+                  studentId={studentData.studentId}
+                  onChange={this.props.onChange}
+                />
               ))
             ) : (
               'No Students'
