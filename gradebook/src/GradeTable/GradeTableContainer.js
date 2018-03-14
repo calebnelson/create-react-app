@@ -19,7 +19,8 @@ const mapDispatchToProps = dispatch => {
           studentId,
           problemNum,
           parseInt(
-            document.getElementById(studentId.concat(problemNum)).value
+            document.getElementById(studentId.concat(problemNum)).value,
+            10
           ) > 0
             ? 1
             : 0
