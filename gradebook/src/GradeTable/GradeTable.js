@@ -13,18 +13,24 @@ function Cell(props) {
 }
 
 function TableRow(props) {
+  const total =
+    props.responses &&
+    props.responses.reduce((a, b) => {
+      if (!a) {
+        a = 0;
+      }
+      if (!b) {
+        b = 0;
+      }
+      return a + b;
+    }, 0);
+
   return (
     <tr>
       <td>{props.firstName}</td>
       <td>{props.lastName}</td>
-      <td>
-        0
-        {/* {studentData.responses &&
-        studentData.responses.reduce((a, b) => {
-          return a + b;
-        }, 0)} */}
-      </td>
-      <td>{'0%'}</td>
+      <td>{total}</td>
+      <td>{''.concat(total * 100 / props.problems.length).concat('%')}</td>
       {props.problems.map(problemData => (
         <td>
           <Cell
@@ -66,6 +72,7 @@ class GradeTable extends Component {
                   problems={this.props.problems}
                   studentId={studentData.studentId}
                   onChange={this.props.onChange}
+                  responses={studentData.responses}
                 />
               ))
             ) : (

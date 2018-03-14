@@ -19,7 +19,11 @@ const mapDispatchToProps = dispatch => {
         onSubmissionChange(
           studentId,
           problemNum,
-          document.getElementById(studentId.concat(problemNum))
+          parseInt(
+            document.getElementById(studentId.concat(problemNum)).value
+          ) > 0
+            ? 1
+            : 0
         )
       );
     },
