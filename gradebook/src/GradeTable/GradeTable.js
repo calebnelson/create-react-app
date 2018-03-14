@@ -8,6 +8,7 @@ function Cell(props) {
       min="0"
       max="1"
       onChange={() => props.onChange(props.studentId, props.problemNum)}
+      onKeyPress={handleKeyPress}
     />
   );
 }
@@ -43,6 +44,10 @@ function TableRow(props) {
     </tr>
   );
 }
+
+const handleKeyPress = event => {
+  console.log(event.key);
+};
 
 class GradeTable extends Component {
   render() {
