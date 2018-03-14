@@ -8,7 +8,7 @@ function Cell(props) {
       min="0"
       max="1"
       onChange={() => props.onChange(props.studentId, props.problemNum)}
-      onKeyPress={handleKeyPress}
+      onKeyDown={handleKeyDown}
     />
   );
 }
@@ -45,7 +45,7 @@ function TableRow(props) {
   );
 }
 
-const handleKeyPress = event => {
+const handleKeyDown = event => {
   console.log(event.key);
 };
 
