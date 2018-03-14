@@ -32,7 +32,7 @@ function TableRow(props) {
       <td>{total}</td>
       <td>{''.concat(total * 100 / props.problems.length).concat('%')}</td>
       {props.problems.map(problemData => (
-        <td>
+        <td key={props.studentId.concat(problemData.order)}>
           <Cell
             studentId={props.studentId}
             problemNum={problemData.order}
@@ -55,18 +55,23 @@ class GradeTable extends Component {
               <th />
               <th />
               <th />
-              {this.props.problems.map(data => <th> {data.order} </th>)}
+              {this.props.problems.map(data => (
+                <th key={'problemNum'.concat(data.order)}> {data.order} </th>
+              ))}
             </tr>
             <tr>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Total</th>
               <th>Percent</th>
-              {this.props.columns.map(data => <th> {data} </th>)}
+              {this.props.columns.map((data, index) => (
+                <th key={'columnNum'.concat(index)}> {data} </th>
+              ))}
             </tr>
             {this.props.submissions ? (
               this.props.submissions.map(studentData => (
                 <TableRow
+                  key={studentData.studentId}
                   firstName={studentData.firstName}
                   lastName={studentData.lastName}
                   problems={this.props.problems}
