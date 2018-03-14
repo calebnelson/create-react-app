@@ -85,7 +85,6 @@ class GradeTable extends Component {
             )}
           </tbody>
         </table>
-        <input type="submit" value="Submit" />
       </div>
     );
   }
