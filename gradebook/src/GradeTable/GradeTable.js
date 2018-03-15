@@ -120,6 +120,24 @@ class GradeTable extends Component {
     );
   };
 
+  getTotal = () => {
+    const total = this.props.submissions.reduce((accumulator, currentValue) => {
+      const currentResponseTotal = currentValue.responses.reduce((a, b) => {
+        if (!a) {
+          a = 0;
+        }
+        if (!b) {
+          b = 0;
+        }
+        return a + b;
+      }, 0);
+      return accumulator + currentResponseTotal;
+    }, 0);
+    return Math.round(
+      total * 100 / (this.props.submissions.length * this.props.problems.length)
+    );
+  };
+
   render() {
     return (
       <div>
@@ -128,8 +146,8 @@ class GradeTable extends Component {
             <tr>
               <th />
               <th />
-              <th />
-              <th />
+              <th>Total</th>
+              <th>Percent</th>
               {this.props.problems.map(data => (
                 <th key={'problemNum'.concat(data.order)}> {data.order} </th>
               ))}
@@ -137,8 +155,12 @@ class GradeTable extends Component {
             <tr>
               <th>First Name</th>
               <th>Last Name</th>
-              <th>Total</th>
-              <th>Percent</th>
+              <th>
+                {this.getTotal() *
+                  (this.props.problems ? this.props.problems.length : 1) /
+                  100}
+              </th>
+              <th>{''.concat(this.getTotal()).concat('%')}</th>
               {this.props.columns.map((data, index) => (
                 <th key={'columnNum'.concat(index)}> {data} </th>
               ))}
