@@ -155,11 +155,7 @@ class GradeTable extends Component {
             <tr>
               <th>First Name</th>
               <th>Last Name</th>
-              <th>
-                {this.getTotal() *
-                  (this.props.problems ? this.props.problems.length : 1) /
-                  100}
-              </th>
+              <th>{this.getTotal() * this.props.problems.length / 100}</th>
               <th>{''.concat(this.getTotal()).concat('%')}</th>
               {this.props.columns.map((data, index) => (
                 <th key={'columnNum'.concat(index)}> {data} </th>
