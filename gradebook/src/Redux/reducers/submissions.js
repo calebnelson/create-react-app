@@ -41,7 +41,7 @@ export const submissionsReducer = (state = defaultState, action) => {
           return {
             ...data,
             responses: action.payload.problems.map(() => {
-              return undefined;
+              return null;
             }),
           };
         }),
@@ -51,35 +51,36 @@ export const submissionsReducer = (state = defaultState, action) => {
       };
     case 'CHANGE_SUBMISSION':
       const problemNum = action.problemNum;
+      const newSubmissions = state.submissions.map(data => {
+        if (data.studentId === action.studentId) {
+          return {
+            ...data,
+            responses: data.responses
+              .slice(0, problemNum - 1)
+              .concat(action.response)
+              .concat(data.responses.slice(problemNum)),
+          };
+        } else {
+          return {
+            ...data,
+          };
+        }
+      });
+
+      const newCol = newSubmissions.reduce((accumulator, currentValue) => {
+        const currentResponse = currentValue.responses[problemNum - 1];
+        return accumulator + currentResponse;
+      }, 0);
+
+      const newColumns = state.columns
+        .slice(0, problemNum - 1)
+        .concat(newCol)
+        .concat(state.columns.slice(problemNum));
+
       return {
         ...state,
-        submissions: state.submissions.map(data => {
-          if (data.studentId === action.studentId) {
-            return {
-              ...data,
-              responses: data.responses
-                .slice(0, problemNum - 1)
-                .concat([action.response])
-                .concat(data.responses.slice(problemNum)),
-            };
-          } else {
-            return {
-              ...data,
-            };
-          }
-        }),
-        columns: state.columns
-          .slice(0, problemNum - 1)
-          .concat([
-            state.submissions.reduce((a, data) => {
-              const b = data.responses ? data.responses[problemNum] : 0;
-              if (!a) {
-                a = 0;
-              }
-              return b ? a + b : a;
-            }, 0),
-          ])
-          .concat(state.columns.slice(problemNum)),
+        submissions: newSubmissions,
+        columns: newColumns,
       };
     default:
       return state;
