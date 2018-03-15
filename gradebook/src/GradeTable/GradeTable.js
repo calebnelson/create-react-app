@@ -64,6 +64,7 @@ class GradeTable extends Component {
     const lastProblem = this.props.problems.length;
     switch (event.key) {
       case 'ArrowUp':
+      case 'w':
         if (rowNum > 0) {
           this.getCell(rowNum - 1, problemNum).focus();
         } else {
@@ -71,6 +72,7 @@ class GradeTable extends Component {
         }
         break;
       case 'ArrowDown':
+      case 's':
         if (rowNum < lastRow) {
           this.getCell(rowNum + 1, problemNum).focus();
         } else {
@@ -78,6 +80,7 @@ class GradeTable extends Component {
         }
         break;
       case 'ArrowLeft':
+      case 'a':
         if (problemNum > 1) {
           this.getCell(rowNum, problemNum - 1).focus();
         } else if (rowNum > 0) {
@@ -93,6 +96,7 @@ class GradeTable extends Component {
       case 'ArrowRight':
       case 'Enter':
       case 'Tab':
+      case 'd':
         if (problemNum < lastProblem) {
           this.getCell(rowNum, problemNum + 1).focus();
         } else if (rowNum < lastRow) {
