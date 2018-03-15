@@ -13,13 +13,18 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChange: (studentId, problemNum) => {
+    onChange: (studentId, rowNum, problemNum) => {
       dispatch(
         onSubmissionChange(
           studentId,
           problemNum,
           parseInt(
-            document.getElementById(studentId.concat(problemNum)).value,
+            document.getElementById(
+              ''
+                .concat(rowNum)
+                .concat(', ')
+                .concat(problemNum)
+            ).value,
             10
           ) > 0
             ? 1

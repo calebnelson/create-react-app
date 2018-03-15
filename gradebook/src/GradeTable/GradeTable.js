@@ -4,11 +4,21 @@ function Cell(props) {
   return (
     <input
       type="number"
-      id={props.studentId.concat(props.problemNum)}
+      id={''
+        .concat(props.rowNum)
+        .concat(', ')
+        .concat(props.problemNum)}
       min="0"
       max="1"
-      onChange={() => props.onChange(props.studentId, props.problemNum)}
-      onKeyDown={handleKeyDown}
+      onChange={() =>
+        props.onChange(props.studentId, props.rowNum, props.problemNum)}
+      onKeyDown={event =>
+        props.handleKeyDown(
+          event,
+          props.rowNum,
+          props.problemNum,
+          props.studentId
+        )}
     />
   );
 }
@@ -35,9 +45,11 @@ function TableRow(props) {
       {props.problems.map(problemData => (
         <td key={props.studentId.concat(problemData.order)}>
           <Cell
-            studentId={props.studentId}
             problemNum={problemData.order}
+            rowNum={props.rowNum}
+            studentId={props.studentId}
             onChange={props.onChange}
+            handleKeyDown={props.handleKeyDown}
           />
         </td>
       ))}
@@ -45,11 +57,55 @@ function TableRow(props) {
   );
 }
 
-const handleKeyDown = event => {
-  console.log(event.key);
-};
-
 class GradeTable extends Component {
+  handleKeyDown = (event, rowNum, problemNum, studentId) => {
+    event.preventDefault();
+    switch (event.key) {
+      case 'ArrowUp':
+        if (rowNum > 0) {
+          this.getCell(rowNum - 1, problemNum).focus();
+        }
+        break;
+      case 'ArrowDown':
+        if (rowNum < this.props.submissions.length - 1) {
+          this.getCell(rowNum + 1, problemNum).focus();
+        }
+        break;
+      case 'ArrowLeft':
+        if (problemNum > 1) {
+          this.getCell(rowNum, problemNum - 1).focus();
+        } else if (rowNum > 0) {
+          this.getCell(rowNum - 1, this.props.problems.length).focus();
+        }
+        break;
+      case '1':
+      case '0':
+        this.getCell(rowNum, problemNum).value = parseInt(event.key, 10);
+        this.props.onChange(studentId, rowNum, problemNum);
+      case 'ArrowRight':
+      case 'Enter':
+      case 'Tab':
+        if (problemNum < this.props.problems.length) {
+          this.getCell(rowNum, problemNum + 1).focus();
+        } else if (rowNum < this.props.submissions.length - 1) {
+          this.getCell(rowNum + 1, 1).focus();
+        }
+        break;
+      default:
+        //console.log("".concat(event.key).concat(", ").concat(rowNum).concat(", ").concat(problemNum))
+        break;
+    }
+  };
+
+  getCell = (rowNum, problemNum) => {
+    return document.getElementById(
+      ''
+        .concat(rowNum)
+        .concat(', ')
+        .concat(problemNum)
+    );
+  };
+
   render() {
     return (
       <div>
@@ -74,15 +130,17 @@ class GradeTable extends Component {
               ))}
             </tr>
             {this.props.submissions ? (
-              this.props.submissions.map(studentData => (
+              this.props.submissions.map((studentData, index) => (
                 <TableRow
-                  key={studentData.studentId}
+                  key={'rowNum'.concat(index)}
+                  responses={studentData.responses}
                   firstName={studentData.firstName}
                   lastName={studentData.lastName}
                   problems={this.props.problems}
+                  rowNum={index}
                   studentId={studentData.studentId}
                   onChange={this.props.onChange}
-                  responses={studentData.responses}
+                  handleKeyDown={this.handleKeyDown}
                 />
               ))
             ) : (
