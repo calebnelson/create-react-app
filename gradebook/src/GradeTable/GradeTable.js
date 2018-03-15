@@ -60,22 +60,30 @@ function TableRow(props) {
 class GradeTable extends Component {
   handleKeyDown = (event, rowNum, problemNum, studentId) => {
     event.preventDefault();
+    const lastRow = this.props.submissions.length - 1;
+    const lastProblem = this.props.problems.length;
     switch (event.key) {
       case 'ArrowUp':
         if (rowNum > 0) {
           this.getCell(rowNum - 1, problemNum).focus();
+        } else {
+          this.getCell(lastRow, problemNum).focus();
         }
         break;
       case 'ArrowDown':
-        if (rowNum < this.props.submissions.length - 1) {
+        if (rowNum < lastRow) {
           this.getCell(rowNum + 1, problemNum).focus();
+        } else {
+          this.getCell(0, problemNum).focus();
         }
         break;
       case 'ArrowLeft':
         if (problemNum > 1) {
           this.getCell(rowNum, problemNum - 1).focus();
         } else if (rowNum > 0) {
-          this.getCell(rowNum - 1, this.props.problems.length).focus();
+          this.getCell(rowNum - 1, lastProblem).focus();
+        } else {
+          this.getCell(lastRow, lastProblem).focus();
         }
         break;
       case '1':
@@ -85,10 +93,12 @@ class GradeTable extends Component {
       case 'ArrowRight':
       case 'Enter':
       case 'Tab':
-        if (problemNum < this.props.problems.length) {
+        if (problemNum < lastProblem) {
           this.getCell(rowNum, problemNum + 1).focus();
-        } else if (rowNum < this.props.submissions.length - 1) {
+        } else if (rowNum < lastRow) {
           this.getCell(rowNum + 1, 1).focus();
+        } else {
+          this.getCell(0, 1).focus();
         }
         break;
       default:
