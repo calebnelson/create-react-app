@@ -184,6 +184,9 @@ class GradeTable extends Component {
             )}
           </tbody>
         </table>
+        <button type="button" id="submitButton" onClick={this.props.submit}>
+          Submit
+        </button>
       </div>
     );
   }

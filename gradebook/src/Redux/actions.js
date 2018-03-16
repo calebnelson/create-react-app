@@ -23,3 +23,8 @@ export const onSubmissionChange = (studentId, problemNum, response) => ({
   problemNum,
   response,
 });
+
+export const submit = submissions => ({
+  type: 'SUBMIT',
+  payload: submissions,
+});

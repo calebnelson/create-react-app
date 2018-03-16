@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import GradeTable from './GradeTable';
-import { onSubmissionChange } from '../Redux/actions';
+import { onSubmissionChange, submit } from '../Redux/actions';
 
 const mapStateToProps = state => {
   return {
@@ -31,6 +31,9 @@ const mapDispatchToProps = dispatch => {
             : 0
         )
       );
+    },
+    submit: submissions => {
+      dispatch(submit(submissions));
     },
   };
 };
