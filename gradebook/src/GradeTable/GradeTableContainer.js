@@ -18,6 +18,7 @@ const mapDispatchToProps = dispatch => {
         onSubmissionChange(
           studentId,
           problemNum,
+          //Parses the value stored in the cell into a 1 or 0
           parseInt(
             document.getElementById(
               ''
