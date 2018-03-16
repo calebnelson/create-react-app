@@ -24,24 +24,14 @@ function Cell(props) {
 }
 
 function TableRow(props) {
-  const total =
-    props.responses &&
-    props.responses.reduce((a, b) => {
-      if (!a) {
-        a = 0;
-      }
-      if (!b) {
-        b = 0;
-      }
-      return a + b;
-    }, 0);
-
   return (
     <tr>
       <td>{props.firstName}</td>
       <td>{props.lastName}</td>
-      <td>{total}</td>
-      <td>{''.concat(total * 100 / props.problems.length).concat('%')}</td>
+      <td>{props.total}</td>
+      <td>
+        {''.concat(props.total * 100 / props.problems.length).concat('%')}
+      </td>
       {props.problems.map(problemData => (
         <td key={props.studentId.concat(problemData.order)}>
           <Cell
@@ -58,6 +48,35 @@ function TableRow(props) {
 }
 
 class GradeTable extends Component {
+  getTotals = () => {
+    return this.props.submissions.map(studentData => {
+      return studentData.responses.reduce((a, b) => {
+        if (!a) {
+          a = 0;
+        }
+        if (!b) {
+          b = 0;
+        }
+        return a + b;
+      }, 0);
+    });
+  };
+
+  getTotal = () => {
+    const total = this.getTotals().reduce((a, b) => {
+      if (!a) {
+        a = 0;
+      }
+      if (!b) {
+        b = 0;
+      }
+      return a + b;
+    }, 0);
+    return Math.round(
+      total * 100 / (this.props.submissions.length * this.props.problems.length)
+    );
+  };
+
   handleKeyDown = (event, rowNum, problemNum, studentId) => {
     event.preventDefault();
     const lastRow = this.props.submissions.length - 1;
@@ -120,32 +139,14 @@ class GradeTable extends Component {
     );
   };
 
-  getTotal = () => {
-    const total = this.props.submissions.reduce((accumulator, currentValue) => {
-      const currentResponseTotal = currentValue.responses.reduce((a, b) => {
-        if (!a) {
-          a = 0;
-        }
-        if (!b) {
-          b = 0;
-        }
-        return a + b;
-      }, 0);
-      return accumulator + currentResponseTotal;
-    }, 0);
-    return Math.round(
-      total * 100 / (this.props.submissions.length * this.props.problems.length)
-    );
-  };
-
   render() {
     return (
       <div>
         <table>
           <tbody>
             <tr>
-              <th />
-              <th />
+              <th>Num Students: </th>
+              <th>{this.props.submissions.length}</th>
               <th>Total</th>
               <th>Percent</th>
               {this.props.problems.map(data => (
@@ -165,6 +166,7 @@ class GradeTable extends Component {
               this.props.submissions.map((studentData, index) => (
                 <TableRow
                   key={'rowNum'.concat(index)}
+                  total={this.getTotals()[index]}
                   responses={studentData.responses}
                   firstName={studentData.firstName}
                   lastName={studentData.lastName}
