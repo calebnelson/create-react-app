@@ -4,7 +4,7 @@ function Cell(props) {
   return (
     <input
       type="number"
-      value={props.defaultValue}
+      value={props.defaultValue || undefined}
       id={''
         .concat(props.rowNum)
         .concat(', ')
