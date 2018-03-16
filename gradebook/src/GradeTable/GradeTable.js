@@ -4,6 +4,7 @@ function Cell(props) {
   return (
     <input
       type="number"
+      value={props.defaultValue}
       id={''
         .concat(props.rowNum)
         .concat(', ')
@@ -32,9 +33,10 @@ function TableRow(props) {
       <td>
         {''.concat(props.total * 100 / props.problems.length).concat('%')}
       </td>
-      {props.problems.map(problemData => (
+      {props.problems.map((problemData, index) => (
         <td key={props.studentId.concat(problemData.order)}>
           <Cell
+            defaultValue={props.responses[index]}
             problemNum={problemData.order}
             rowNum={props.rowNum}
             studentId={props.studentId}
