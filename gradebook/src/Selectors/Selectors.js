@@ -7,7 +7,7 @@ function Classes(props) {
       key="classSelectorField"
       onChange={props.onChange}
     >
-      <option value="" selected disabled hidden>
+      <option value="" hidden>
         Select Class
       </option>
       {props.classes ? (
@@ -30,7 +30,7 @@ function Lessons(props) {
       key="lessonSelectorField"
       onChange={props.onChange}
     >
-      <option value="" selected disabled hidden>
+      <option value="" hidden>
         Select Lesson
       </option>
       {props.lessons ? (
@@ -60,7 +60,7 @@ function Assignments(props) {
       key="assignmentSelectorField"
       onChange={props.onChange}
     >
-      <option value="" selected disabled hidden>
+      <option value="" hidden>
         Select Assignment
       </option>
       {props.assignments ? (
@@ -90,7 +90,7 @@ class Selectors extends Component {
 
   render() {
     return (
-      <div>
+      <div className="selectors">
         Class:{' '}
         <Classes
           key="classSelector"

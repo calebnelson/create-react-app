@@ -12,6 +12,9 @@ const mapStateToProps = state => {
     classes: state.classesReducer.classes,
     lessons: state.lessonsReducer.lessons,
     assignments: state.assignmentsReducer.assignments,
+    selectedClass: state.selectedClassReducer.selectedClass,
+    selectedLesson: state.selectedLessonReducer.selectedLesson,
+    selectedAssignment: state.selectedAssignmentReducer.selectedAssignment,
   };
 };
 
