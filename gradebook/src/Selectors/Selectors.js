@@ -90,7 +90,7 @@ class Selectors extends Component {
 
   render() {
     return (
-      <div className="selectors">
+      <div>
         Class:{' '}
         <Classes
           key="classSelector"
