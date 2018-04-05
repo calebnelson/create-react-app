@@ -7,7 +7,7 @@ The props it expects are:
 - problemNum: the problem number this cell refers to
 - rowNum: the TableRow (and therefore the student) the cell refers to
 - studentId: the ID of the student the cell refers to, only used to pass into the onChange function
-- onChange: the function that dispatches the action to the redux store once the value is changed
+- onChange: the function that dispatches the action to the redux store once the value is changed, called when the value of the cell changes directly
 - handleKeyDown: the function that handles key presses, defined in GradeTable
 */
 function Cell(props) {
@@ -21,8 +21,6 @@ function Cell(props) {
         .concat(props.problemNum)}
       min="0"
       max="1"
-      onChange={() =>
-        props.onChange(props.studentId, props.rowNum, props.problemNum)}
       onKeyDown={event =>
         props.handleKeyDown(
           event,
@@ -147,8 +145,28 @@ class GradeTable extends Component {
         break;
       case '1':
       case '0':
-        this.getCell(rowNum, problemNum).value = parseInt(event.key, 10);
-        this.props.onChange(studentId, rowNum, problemNum);
+        const nodeValue = parseInt(event.key, 10);
+        this.getCell(rowNum, problemNum).value = nodeValue;
+        this.props.onChange(studentId, rowNum, problemNum, nodeValue);
+        if (problemNum < lastProblem) {
+          this.getCell(rowNum, problemNum + 1).focus();
+        } else if (rowNum < lastRow) {
+          this.getCell(rowNum + 1, 1).focus();
+        } else {
+          this.getCell(0, 1).focus();
+        }
+        break;
+      case ' ':
+        this.getCell(rowNum, problemNum).value = null;
+        this.props.onChange(studentId, rowNum, problemNum, null);
+        if (problemNum < lastProblem) {
+          this.getCell(rowNum, problemNum + 1).focus();
+        } else if (rowNum < lastRow) {
+          this.getCell(rowNum + 1, 1).focus();
+        } else {
+          this.getCell(0, 1).focus();
+        }
+        break;
       case 'ArrowRight':
       case 'Enter':
       case 'Tab':

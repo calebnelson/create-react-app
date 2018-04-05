@@ -13,23 +13,14 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChange: (studentId, rowNum, problemNum) => {
+    onChange: (studentId, rowNum, problemNum, nodeValue) => {
+      // console.log(nodeValue);
+      // console.log(typeof(nodeValue));
       dispatch(
         onSubmissionChange(
           studentId,
           problemNum,
-          //Parses the value stored in the cell into a 1 or 0
-          parseInt(
-            document.getElementById(
-              ''
-                .concat(rowNum)
-                .concat(', ')
-                .concat(problemNum)
-            ).value,
-            10
-          ) > 0
-            ? 1
-            : 0
+          nodeValue,
         )
       );
     },
