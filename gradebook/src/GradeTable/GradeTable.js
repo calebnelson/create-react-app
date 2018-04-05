@@ -105,9 +105,12 @@ class GradeTable extends Component {
       }
       return a + b;
     }, 0);
-    return Math.round(
-      total * 100 / (this.props.submissions.length * this.props.problems.length)
-    );
+    if (this.props.submissions.length !== 0){
+      return Math.round(
+        total * 100 / (this.props.submissions.length * this.props.problems.length)
+      );
+    }
+    return 0;
   };
 
   //handles navigation through the gradeTable with the arrow keys or WASD
@@ -212,7 +215,7 @@ class GradeTable extends Component {
             <tr>
               <th>First Name</th>
               <th>Last Name</th>
-              <th>{this.getTotal() * this.props.problems.length / 100}</th>
+              <th>{this.getTotal() * (this.props.problems.length || 0) / 100}</th>
               <th>{''.concat(this.getTotal()).concat('%')}</th>
               {this.props.columns.map((data, index) => (
                 <th key={'columnNum'.concat(index)}> {data} </th>
