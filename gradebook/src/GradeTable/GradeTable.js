@@ -143,6 +143,18 @@ class GradeTable extends Component {
           this.getCell(lastRow, lastProblem).focus();
         }
         break;
+      case 'ArrowRight':
+      case 'Enter':
+      case 'Tab':
+      case 'd':
+          if (problemNum < lastProblem) {
+            this.getCell(rowNum, problemNum + 1).focus();
+          } else if (rowNum < lastRow) {
+            this.getCell(rowNum + 1, 1).focus();
+          } else {
+            this.getCell(0, 1).focus();
+          }
+          break;
       case '1':
       case '0':
         const nodeValue = parseInt(event.key, 10);
@@ -159,18 +171,6 @@ class GradeTable extends Component {
       case ' ':
         this.getCell(rowNum, problemNum).value = null;
         this.props.onChange(studentId, rowNum, problemNum, null);
-        if (problemNum < lastProblem) {
-          this.getCell(rowNum, problemNum + 1).focus();
-        } else if (rowNum < lastRow) {
-          this.getCell(rowNum + 1, 1).focus();
-        } else {
-          this.getCell(0, 1).focus();
-        }
-        break;
-      case 'ArrowRight':
-      case 'Enter':
-      case 'Tab':
-      case 'd':
         if (problemNum < lastProblem) {
           this.getCell(rowNum, problemNum + 1).focus();
         } else if (rowNum < lastRow) {
