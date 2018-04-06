@@ -105,7 +105,7 @@ class GradeTable extends Component {
       }
       return a + b;
     }, 0);
-    if (this.props.submissions.length !== 0){
+    if (this.props.submissions.length > 0 && this.props.problems.length > 0){
       return Math.round(
         total * 100 / (this.props.submissions.length * this.props.problems.length)
       );
