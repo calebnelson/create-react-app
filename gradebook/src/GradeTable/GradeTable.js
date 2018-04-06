@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native-web';
 
 /*
 This component represents one cell in the grade table referring to one students score on one problem
@@ -200,7 +201,7 @@ class GradeTable extends Component {
 
   render() {
     return (
-      <div>
+      <View>
         <table>
           <tbody>
             <tr>
@@ -244,7 +245,7 @@ class GradeTable extends Component {
         <button type="button" id="submitButton" onClick={this.props.submit}>
           Submit
         </button>
-      </div>
+      </View>
     );
   }
 }

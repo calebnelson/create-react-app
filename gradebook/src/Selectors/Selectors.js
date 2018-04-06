@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View, Text } from 'react-native-web';
 
 function Classes(props) {
   return (
@@ -90,29 +91,29 @@ class Selectors extends Component {
 
   render() {
     return (
-      <div className="selectors">
-        Class:{' '}
+      <View>
+        {/* Class:{' '} */}
         <Classes
           key="classSelector"
           classes={this.props.classes}
           onChange={this.props.onClassChange}
         />
         <br />
-        Lesson:{' '}
+        {/* Lesson:{' '} */}
         <Lessons
           key="lessonSelector"
           lessons={this.props.lessons}
           onChange={this.props.onLessonChange}
         />
         <br />
-        Assignment:{' '}
+        {/* Assignment:{' '} */}
         <Assignments
           key="assignmentSelector"
           assignments={this.props.assignments}
           onChange={this.props.onAssignmentChange}
         />
         <br />
-      </div>
+      </View>
     );
   }
 }
