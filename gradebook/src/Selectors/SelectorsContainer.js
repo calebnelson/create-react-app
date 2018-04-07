@@ -23,14 +23,14 @@ const mapDispatchToProps = dispatch => {
     onLoad: () => {
       dispatch(runQueryOnRoot());
     },
-    onClassChange: changeEvent => {
-      dispatch(onClassChange(changeEvent.target.value));
+    onClassChange: changeValue => {
+      dispatch(onClassChange(changeValue));
     },
-    onLessonChange: changeEvent => {
-      dispatch(onLessonChange(changeEvent.target.value));
+    onLessonChange: changeValue => {
+      dispatch(onLessonChange(changeValue));
     },
-    onAssignmentChange: changeEvent => {
-      dispatch(onAssignmentChange(changeEvent.target.value));
+    onAssignmentChange: changeValue => {
+      dispatch(onAssignmentChange(changeValue));
     },
   };
 };
