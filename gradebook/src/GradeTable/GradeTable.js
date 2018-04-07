@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native-web';
+import { View, Text, Button } from 'react-native-web';
 
 /*
 This component represents one cell in the grade table referring to one students score on one problem
@@ -205,21 +205,21 @@ class GradeTable extends Component {
         <table>
           <tbody>
             <tr>
-              <th>Num Students: </th>
-              <th>{this.props.submissions.length}</th>
-              <th>Total</th>
-              <th>Percent</th>
+              <th><Text>Num Students: </Text></th>
+              <th><Text>{this.props.submissions.length}</Text></th>
+              <th><Text>Total</Text></th>
+              <th><Text>Percent</Text></th>
               {this.props.problems.map(data => (
-                <th key={'problemNum'.concat(data.order)}> {data.order} </th>
+                <th key={'problemNum'.concat(data.order)}> <Text>{data.order}</Text> </th>
               ))}
             </tr>
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>{this.getTotal() * (this.props.problems.length || 0) / 100}</th>
-              <th>{''.concat(this.getTotal()).concat('%')}</th>
+              <th><Text>First Name</Text></th>
+              <th><Text>Last Name</Text></th>
+              <th><Text>{this.getTotal() * (this.props.problems.length || 0) / 100}</Text></th>
+              <th><Text>{''.concat(this.getTotal()).concat('%')}</Text></th>
               {this.props.columns.map((data, index) => (
-                <th key={'columnNum'.concat(index)}> {data} </th>
+                <th key={'columnNum'.concat(index)}> <Text>{data}</Text> </th>
               ))}
             </tr>
             {this.props.submissions ? (
@@ -242,9 +242,7 @@ class GradeTable extends Component {
             )}
           </tbody>
         </table>
-        <button type="button" id="submitButton" onClick={this.props.submit}>
-          Submit
-        </button>
+        <Button id="submitButton" onPress={this.props.submit} title="Submit" />
       </View>
     );
   }
