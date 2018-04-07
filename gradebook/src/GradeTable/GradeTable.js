@@ -46,11 +46,11 @@ The props it expects are:
 function TableRow(props) {
   return (
     <tr>
-      <td>{props.firstName}</td>
-      <td>{props.lastName}</td>
-      <td>{props.total}</td>
+      <td><Text>{props.firstName}</Text></td>
+      <td><Text>{props.lastName}</Text></td>
+      <td><Text>{props.total}</Text></td>
       <td>
-        {''.concat(props.total * 100 / props.problems.length).concat('%')}
+        <Text>{''.concat(props.total * 100 / props.problems.length).concat('%')}</Text>
       </td>
       {props.problems.map((problemData, index) => (
         <td key={props.studentId.concat(problemData.order)}>
