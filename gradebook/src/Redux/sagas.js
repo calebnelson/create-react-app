@@ -86,7 +86,13 @@ export function* queryClass(action) {
       (a, b) => a.lessonPlan.order - b.lessonPlan.order
     );
     const sortedEnrollments = res.data.classroom.enrollments.sort(
-      (a, b) => a.student.lastName.toLowerCase().localeCompare(b.student.lastName.toLowerCase())
+      (a, b) => {
+        const lastNameSort = a.student.lastName.toLowerCase().localeCompare(b.student.lastName.toLowerCase())
+        if (lastNameSort == 0){
+          return a.student.firstName.toLowerCase().localeCompare(b.student.firstName.toLowerCase())
+        }
+        return lastNameSort
+      }
     );
     yield put({
       type: 'QUERY_CLASS_SUCCESS',

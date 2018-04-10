@@ -6,7 +6,7 @@ function Classes(props) {
     <Picker
       onValueChange={(itemValue, itemPosition) => props.onChange(itemValue)}
     >
-      <Picker.Item value="Select Class" key="Select Class" label="Select Class" />
+      <Picker.Item value="Select Classroom" key="Select Classroom" label="Select Classroom" />
       {props.classes ? (
         props.classes.map(data => (
           <Picker.Item value={data.id} key={data.id} label={data ? data.code : 'Getting Classes...'} />
@@ -78,7 +78,7 @@ class Selectors extends Component {
   render() {
     return (
       <View>
-        <Text>Class: </Text>
+        <Text>Classroom: </Text>
         <Classes
           key="classSelector"
           classes={this.props.classes}
