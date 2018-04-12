@@ -16,23 +16,35 @@ The props it expects are:
 */
 function Cell(props) {
   return (
-    <input
-      type="number"
+    <InputCell
       value={props.defaultValue || undefined}
-      id={''
-        .concat(props.rowNum)
-        .concat(', ')
-        .concat(props.problemNum)}
-      min="0"
-      max="1"
-      onKeyDown={event =>
-        props.handleKeyDown(
-          event,
-          props.rowNum,
-          props.problemNum,
-          props.studentId
-        )}
+      keyboardType='numeric'
+      maxLength={1}
+      // onKeyPress={event =>
+      //   props.handleKeyDown(
+      //     event,
+      //     props.rowNum,
+      //     props.problemNum,
+      //     props.studentId
+      //   )}
     />
+    // <input
+    //   type="number"
+    //   value={props.defaultValue || undefined}
+    //   id={''
+    //     .concat(props.rowNum)
+    //     .concat(', ')
+    //     .concat(props.problemNum)}
+    //   min="0"
+    //   max="1"
+    //   onKeyDown={event =>
+    //     props.handleKeyDown(
+    //       event,
+    //       props.rowNum,
+    //       props.problemNum,
+    //       props.studentId
+    //     )}
+    // />
   );
 }
 
