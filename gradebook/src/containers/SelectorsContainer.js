@@ -5,7 +5,7 @@ import {
   onAssignmentChange,
   runQueryOnRoot,
 } from '../Redux/actions';
-import Selectors from './Selectors';
+import Selectors from '../components/Selectors';
 
 const mapStateToProps = state => {
   return {

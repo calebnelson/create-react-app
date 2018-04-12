@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import GradeTable from './GradeTable';
+import GradeTable from '../components/GradeTable';
 import { onSubmissionChange, submit } from '../Redux/actions';
 
 const mapStateToProps = state => {

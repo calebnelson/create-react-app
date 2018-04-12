@@ -3,8 +3,8 @@ import './App.css';
 import { connect } from 'react-redux';
 import { View, Text } from 'react-native-web';
 
-import SelectorsContainer from './Selectors/SelectorsContainer';
-import GradeTableContainer from './GradeTable/GradeTableContainer';
+import SelectorsContainer from './containers/SelectorsContainer';
+import GradeTableContainer from './containers/GradeTableContainer';
 
 class App extends Component {
   render() {
@@ -12,7 +12,7 @@ class App extends Component {
       <View>
         <Text>Ardent Academy Gradebook App</Text>
         <SelectorsContainer />
-        {(this.props.class === null || this.props.lesson === null || this.props.assignment === null)
+        {(this.props.needsClass || this.props.needsLesson || this.props.needsAssignment)
           ? <Text>Choose Class, Lesson and Assignment</Text>
           : <GradeTableContainer />}
       </View>
@@ -22,7 +22,7 @@ class App extends Component {
 
 //export default App;
 export default connect(state => ({
-  class: state.selectedClassReducer.selectedClass || null,
-  lesson: state.selectedLessonReducer.selectedLesson || null,
-  assignment: state.selectedAssignmentReducer.selectedAssignment || null,
+  needsClass: !state.selectedClassReducer.selectedClass,
+  needsLesson: !state.selectedLessonReducer.selectedLesson,
+  needsAssignment: !state.selectedAssignmentReducer.selectedAssignment,
 }))(App);
