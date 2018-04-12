@@ -66,7 +66,7 @@ The props it expects are:
 
 function TableColumn(props){
   return (
-    <View style={{flex: 1, flexDirection: 'column', alignContent: 'center'}}>
+    <View style={{flex: 1, flexDirection: 'column'}}>
       <Text>{props.problemNum+1}</Text>
       <Text>{props.columnTotal}</Text>
       {props.submissions.map((submissionData, index) => (
@@ -221,9 +221,9 @@ class GradeTable extends Component {
   render() {
     return (
       <View>
-        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            <Text>Num Students:</Text>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            <Text># Students</Text>
             <Text>First Name</Text>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
@@ -233,7 +233,7 @@ class GradeTable extends Component {
               <Text>No Students</Text>
             )}
           </View>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{flex: 1, flexDirection: 'column'}}>
             <Text>{this.props.submissions.length}</Text>
             <Text>Last Name</Text>
             {this.props.submissions ? (
@@ -244,14 +244,14 @@ class GradeTable extends Component {
               <Text>No Students</Text>
             )}
           </View>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{flex: 1, flexDirection: 'column'}}>
             <Text>Total</Text>
             <Text>{this.getTotal() * (this.props.problems.length || 0) / 100}</Text>
             {this.getTotals().map((total, index) => (
               <Text key={"total".concat(index)}>{total}</Text>
             ))}
           </View>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{flex: 1, flexDirection: 'column'}}>
             <Text>Percent</Text>
             <Text>{this.getTotal() * (this.props.problems.length || 0) / 100}</Text>
             {this.getTotals().map((total, index) => (
