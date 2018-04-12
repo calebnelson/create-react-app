@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native-web';
+import { Flex } from './Flex'
+import { TextCell } from './TextCell'
+import { InputCell } from './InputCell'
 
 /*
 This component represents one cell in the grade table referring to one students score on one problem
@@ -33,42 +36,11 @@ function Cell(props) {
   );
 }
 
-/*
-This component represents one row in the grade table referring to one student's assignment
-The props it expects are:
-- total: the student's total score on the assignment
-- responses: the student's score on each individual assignment
-- firstName, lastName, studentId: student's first name, last name, and ID
-- problems: the JSON object that stores the problems, mapped over to create the Cells
-- rowNum: self-explanatory
-- onChange, handleKeyDown: passed to cells
-*/
-// function TableRow(props) {
-//   return (
-//     <View style={{flex: 1, flexDirection: 'row', alignContent: 'center'}}>
-//       <Text>{props.firstName}</Text>
-//       <Text>{props.lastName}</Text>
-//       <Text>{props.total}</Text>
-//       <Text>{''.concat(props.total * 100 / props.problems.length).concat('%')}</Text>
-//       {props.problems.map((problemData, index) => (
-//         <Cell
-//           defaultValue={props.responses[index]}
-//           problemNum={problemData.order}
-//           rowNum={props.rowNum}
-//           studentId={props.studentId}
-//           onChange={props.onChange}
-//           handleKeyDown={props.handleKeyDown}
-//         />
-//       ))}
-//     </View>
-//   );
-// }
-
 function TableColumn(props){
   return (
-    <View style={{flex: 1, flexDirection: 'column'}}>
-      <Text>{props.problemNum+1}</Text>
-      <Text>{props.columnTotal}</Text>
+    <Flex col>
+      <TextCell>{props.problemNum+1}</TextCell>
+      <TextCell>{props.columnTotal}</TextCell>
       {props.submissions.map((submissionData, index) => (
         <Cell
           key={''
@@ -83,7 +55,7 @@ function TableColumn(props){
           handleKeyDown={props.handleKeyDown}
         />
       ))}
-    </View>
+    </Flex>
   )
 }
 
@@ -202,6 +174,24 @@ class GradeTable extends Component {
           this.getCell(0, 0).focus();
         }
         break;
+      case 'Backspace':
+        this.getCell(rowNum, problemNum).value = null;
+        this.props.onChange(studentId, rowNum, problemNum, null);
+        if (problemNum < lastProblem) {
+          this.getCell(rowNum, problemNum + 1).focus();
+        } else if (rowNum < lastRow) {
+          this.getCell(rowNum + 1, 0).focus();
+        } else {
+          this.getCell(0, 0).focus();
+        }
+        if (problemNum > 0) {
+          this.getCell(rowNum, problemNum - 1).focus();
+        } else if (rowNum > 0) {
+          this.getCell(rowNum - 1, lastProblem).focus();
+        } else {
+          this.getCell(lastRow, lastProblem).focus();
+        }
+        break;
       default:
         //console.log("".concat(event.key).concat(", ").concat(rowNum).concat(", ").concat(problemNum))
         break;
@@ -221,43 +211,43 @@ class GradeTable extends Component {
   render() {
     return (
       <View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <Text># Students</Text>
-            <Text>First Name</Text>
+        <Flex>
+          <Flex col>
+            <TextCell># Students</TextCell>
+            <TextCell>First Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <Text key={"firstname".concat(index)}>{studentData.firstName}</Text>
+                <TextCell key={"firstname".concat(index)}>{studentData.firstName}</TextCell>
               ))
             ) : (
-              <Text>No Students</Text>
+              <TextCell>No Students</TextCell>
             )}
-          </View>
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <Text>{this.props.submissions.length}</Text>
-            <Text>Last Name</Text>
+          </Flex>
+          <Flex col>
+            <TextCell>{this.props.submissions.length}</TextCell>
+            <TextCell>Last Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <Text key={"lastname".concat(index)}>{studentData.lastName}</Text>
+                <TextCell key={"lastname".concat(index)}>{studentData.lastName}</TextCell>
               ))
             ) : (
-              <Text>No Students</Text>
+              <TextCell>No Students</TextCell>
             )}
-          </View>
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <Text>Total</Text>
-            <Text>{this.getTotal() * (this.props.problems.length || 0) / 100}</Text>
+          </Flex>
+          <Flex col>
+            <TextCell>Total</TextCell>
+            <TextCell>{this.getTotal() * (this.props.problems.length || 0) / 100}</TextCell>
             {this.getTotals().map((total, index) => (
-              <Text key={"total".concat(index)}>{total}</Text>
+              <TextCell key={"total".concat(index)}>{total}</TextCell>
             ))}
-          </View>
-          <View style={{flex: 1, flexDirection: 'column'}}>
-            <Text>Percent</Text>
-            <Text>{this.getTotal() * (this.props.problems.length || 0) / 100}</Text>
+          </Flex>
+          <Flex col>
+            <TextCell>Percent</TextCell>
+            <TextCell>{this.getTotal() * (this.props.problems.length || 0) / 100}</TextCell>
             {this.getTotals().map((total, index) => (
-              <Text key={'percent'.concat(index)}>{''.concat(total * 100 / this.props.problems.length).concat('%')}</Text>
+              <TextCell key={'percent'.concat(index)}>{''.concat(total * 100 / this.props.problems.length).concat('%')}</TextCell>
             ))}
-          </View>
+          </Flex>
           {this.props.problems ? (
             this.props.problems.map((problemData, index) => (
               <TableColumn
@@ -272,56 +262,10 @@ class GradeTable extends Component {
           ) : (
             'No Students'
           )}
-        </View>
+        </Flex>
         <Button id="submitButton" onPress={this.props.submit} title="Submit" />
       </View>
     )
   }
-
-  // render() {
-  //   return (
-  //     <View>
-  //       <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-  //         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-  //           <Text>Num Students: </Text>
-  //           <Text>{this.props.submissions.length}</Text>
-  //           <Text>Total</Text>
-  //           <Text>Percent</Text>
-  //           {this.props.problems.map(data => (
-  //             <Text>{data.order}</Text>
-  //           ))}
-  //         </View>
-  //         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-  //           <Text>First Name</Text>
-  //           <Text>Last Name</Text>
-  //           <Text>{this.getTotal() * (this.props.problems.length || 0) / 100}</Text>
-  //           <Text>{''.concat(this.getTotal()).concat('%')}</Text>
-  //           {this.props.columns.map((data, index) => (
-  //             <Text>{data}</Text>
-  //           ))}
-  //         </View>
-  //         {this.props.submissions ? (
-  //           this.props.submissions.map((studentData, index) => (
-  //             <TableRow
-  //               key={'rowNum'.concat(index)}
-  //               total={this.getTotals()[index]}
-  //               responses={studentData.responses}
-  //               firstName={studentData.firstName}
-  //               lastName={studentData.lastName}
-  //               problems={this.props.problems}
-  //               rowNum={index}
-  //               studentId={studentData.studentId}
-  //               onChange={this.props.onChange}
-  //               handleKeyDown={this.handleKeyDown}
-  //             />
-  //           ))
-  //         ) : (
-  //           'No Students'
-  //         )}
-  //       </View>
-  //       <Button id="submitButton" onPress={this.props.submit} title="Submit" />
-  //     </View>
-  //   );
-  // }
 }
 export default GradeTable;
