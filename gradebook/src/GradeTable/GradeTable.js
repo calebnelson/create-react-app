@@ -43,26 +43,26 @@ The props it expects are:
 - rowNum: self-explanatory
 - onChange, handleKeyDown: passed to cells
 */
-function TableRow(props) {
-  return (
-    <View style={{flex: 1, flexDirection: 'row', alignContent: 'center'}}>
-      <Text>{props.firstName}</Text>
-      <Text>{props.lastName}</Text>
-      <Text>{props.total}</Text>
-      <Text>{''.concat(props.total * 100 / props.problems.length).concat('%')}</Text>
-      {props.problems.map((problemData, index) => (
-        <Cell
-          defaultValue={props.responses[index]}
-          problemNum={problemData.order}
-          rowNum={props.rowNum}
-          studentId={props.studentId}
-          onChange={props.onChange}
-          handleKeyDown={props.handleKeyDown}
-        />
-      ))}
-    </View>
-  );
-}
+// function TableRow(props) {
+//   return (
+//     <View style={{flex: 1, flexDirection: 'row', alignContent: 'center'}}>
+//       <Text>{props.firstName}</Text>
+//       <Text>{props.lastName}</Text>
+//       <Text>{props.total}</Text>
+//       <Text>{''.concat(props.total * 100 / props.problems.length).concat('%')}</Text>
+//       {props.problems.map((problemData, index) => (
+//         <Cell
+//           defaultValue={props.responses[index]}
+//           problemNum={problemData.order}
+//           rowNum={props.rowNum}
+//           studentId={props.studentId}
+//           onChange={props.onChange}
+//           handleKeyDown={props.handleKeyDown}
+//         />
+//       ))}
+//     </View>
+//   );
+// }
 
 function TableColumn(props){
   return (
@@ -71,6 +71,10 @@ function TableColumn(props){
       <Text>{props.columnTotal}</Text>
       {props.submissions.map((submissionData, index) => (
         <Cell
+          key={''
+            .concat(index)
+            .concat(', ')
+            .concat(props.problemNum)}
           defaultValue={submissionData.responses[props.problemNum]}
           problemNum={props.problemNum}
           rowNum={index}
@@ -134,7 +138,7 @@ class GradeTable extends Component {
   handleKeyDown = (event, rowNum, problemNum, studentId) => {
     event.preventDefault();
     const lastRow = this.props.submissions.length - 1;
-    const lastProblem = this.props.problems.length;
+    const lastProblem = this.props.problems.length - 1;
     switch (event.key) {
       case 'ArrowUp':
       case 'w':
@@ -154,7 +158,7 @@ class GradeTable extends Component {
         break;
       case 'ArrowLeft':
       case 'a':
-        if (problemNum > 1) {
+        if (problemNum > 0) {
           this.getCell(rowNum, problemNum - 1).focus();
         } else if (rowNum > 0) {
           this.getCell(rowNum - 1, lastProblem).focus();
@@ -169,9 +173,9 @@ class GradeTable extends Component {
           if (problemNum < lastProblem) {
             this.getCell(rowNum, problemNum + 1).focus();
           } else if (rowNum < lastRow) {
-            this.getCell(rowNum + 1, 1).focus();
+            this.getCell(rowNum + 1, 0).focus();
           } else {
-            this.getCell(0, 1).focus();
+            this.getCell(0, 0).focus();
           }
           break;
       case '1':
@@ -182,9 +186,9 @@ class GradeTable extends Component {
         if (problemNum < lastProblem) {
           this.getCell(rowNum, problemNum + 1).focus();
         } else if (rowNum < lastRow) {
-          this.getCell(rowNum + 1, 1).focus();
+          this.getCell(rowNum + 1, 0).focus();
         } else {
-          this.getCell(0, 1).focus();
+          this.getCell(0, 0).focus();
         }
         break;
       case ' ':
@@ -193,9 +197,9 @@ class GradeTable extends Component {
         if (problemNum < lastProblem) {
           this.getCell(rowNum, problemNum + 1).focus();
         } else if (rowNum < lastRow) {
-          this.getCell(rowNum + 1, 1).focus();
+          this.getCell(rowNum + 1, 0).focus();
         } else {
-          this.getCell(0, 1).focus();
+          this.getCell(0, 0).focus();
         }
         break;
       default:
@@ -223,7 +227,7 @@ class GradeTable extends Component {
             <Text>First Name</Text>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <Text>{studentData.firstName}</Text>
+                <Text key={"firstname".concat(index)}>{studentData.firstName}</Text>
               ))
             ) : (
               <Text>No Students</Text>
@@ -234,7 +238,7 @@ class GradeTable extends Component {
             <Text>Last Name</Text>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <Text>{studentData.lastName}</Text>
+                <Text key={"lastname".concat(index)}>{studentData.lastName}</Text>
               ))
             ) : (
               <Text>No Students</Text>
@@ -244,14 +248,14 @@ class GradeTable extends Component {
             <Text>Total</Text>
             <Text>{this.getTotal() * (this.props.problems.length || 0) / 100}</Text>
             {this.getTotals().map((total, index) => (
-              <Text>{total}</Text>
+              <Text key={"total".concat(index)}>{total}</Text>
             ))}
           </View>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
             <Text>Percent</Text>
             <Text>{this.getTotal() * (this.props.problems.length || 0) / 100}</Text>
             {this.getTotals().map((total, index) => (
-              <Text>{''.concat(total * 100 / this.props.problems.length).concat('%')}</Text>
+              <Text key={'percent'.concat(index)}>{''.concat(total * 100 / this.props.problems.length).concat('%')}</Text>
             ))}
           </View>
           {this.props.problems ? (

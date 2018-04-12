@@ -56,9 +56,9 @@ export const submissionsReducer = (state = defaultState, action) => {
           return {
             ...data,
             responses: data.responses
-              .slice(0, problemNum - 1)
+              .slice(0, problemNum)
               .concat(action.response)
-              .concat(data.responses.slice(problemNum)),
+              .concat(data.responses.slice(problemNum + 1)),
           };
         } else {
           return {
@@ -68,14 +68,14 @@ export const submissionsReducer = (state = defaultState, action) => {
       });
 
       const newCol = newSubmissions.reduce((accumulator, currentValue) => {
-        const currentResponse = currentValue.responses[problemNum - 1];
+        const currentResponse = currentValue.responses[problemNum];
         return accumulator + currentResponse;
       }, 0);
 
       const newColumns = state.columns
-        .slice(0, problemNum - 1)
+        .slice(0, problemNum)
         .concat(newCol)
-        .concat(state.columns.slice(problemNum));
+        .concat(state.columns.slice(problemNum + 1));
 
       return {
         ...state,

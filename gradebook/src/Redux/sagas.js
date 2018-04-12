@@ -88,7 +88,7 @@ export function* queryClass(action) {
     const sortedEnrollments = res.data.classroom.enrollments.sort(
       (a, b) => {
         const lastNameSort = a.student.lastName.toLowerCase().localeCompare(b.student.lastName.toLowerCase())
-        if (lastNameSort == 0){
+        if (lastNameSort === 0){
           return a.student.firstName.toLowerCase().localeCompare(b.student.firstName.toLowerCase())
         }
         return lastNameSort
