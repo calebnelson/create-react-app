@@ -1,3 +1,4 @@
+import React from 'react'
 import { connect } from 'react-redux';
 import GradeTable from '../components/GradeTable';
 import { onSubmissionChange, submit } from '../Redux/actions';
@@ -14,8 +15,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onChange: (studentId, rowNum, problemNum, nodeValue) => {
-      // console.log(nodeValue);
-      // console.log(typeof(nodeValue));
       dispatch(
         onSubmissionChange(
           studentId,
@@ -30,8 +29,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const GradeTableContainer = connect(mapStateToProps, mapDispatchToProps)(
-  GradeTable
+let GradeTableContainer = (props) => {
+  return props.problems.length && <GradeTable {...props} />
+}
+
+GradeTableContainer = connect(mapStateToProps, mapDispatchToProps)(
+  GradeTableContainer
 );
 
 export default GradeTableContainer;

@@ -14,38 +14,31 @@ The props it expects are:
 - onChange: the function that dispatches the action to the redux store once the value is changed, called when the value of the cell changes directly
 - handleKeyDown: the function that handles key presses, defined in GradeTable
 */
-function Cell(props) {
-  return (
-    <InputCell
-      value={props.defaultValue || undefined}
-      keyboardType='numeric'
-      maxLength={1}
-      // onKeyPress={event =>
-      //   props.handleKeyDown(
-      //     event,
-      //     props.rowNum,
-      //     props.problemNum,
-      //     props.studentId
-      //   )}
-    />
-    // <input
-    //   type="number"
-    //   value={props.defaultValue || undefined}
-    //   id={''
-    //     .concat(props.rowNum)
-    //     .concat(', ')
-    //     .concat(props.problemNum)}
-    //   min="0"
-    //   max="1"
-    //   onKeyDown={event =>
-    //     props.handleKeyDown(
-    //       event,
-    //       props.rowNum,
-    //       props.problemNum,
-    //       props.studentId
-    //     )}
-    // />
-  );
+class Cell extends React.Component{
+  constructor(props) {
+    super(props);
+
+  }
+
+  render() {
+    const numInput = (this.props.rowNum * this.props.numProblems) + this.props.problemNum
+    return (
+      <InputCell
+        placeholder={numInput.toString()}
+        value={this.props.defaultValue || undefined}
+        keyboardType='numeric'
+        maxLength={1}
+        innerRef={this.props.inputRef}
+        onKeyPress={event =>
+          this.props.handleKeyDown(
+            event,
+            this.props.rowNum,
+            this.props.problemNum,
+            this.props.studentId
+          )}
+      />
+    );
+  }
 }
 
 function TableColumn(props){
@@ -61,10 +54,12 @@ function TableColumn(props){
             .concat(props.problemNum)}
           defaultValue={submissionData.responses[props.problemNum]}
           problemNum={props.problemNum}
+          numProblems={submissionData.responses.length}
           rowNum={index}
           studentId={submissionData.studentId}
           onChange={props.onChange}
           handleKeyDown={props.handleKeyDown}
+          inputRef={props.inputs[(index * submissionData.responses.length) + props.problemNum]}
         />
       ))}
     </Flex>
@@ -83,6 +78,22 @@ The props it expects are:
 - submit: the function that submits the assignment
 */
 class GradeTable extends Component {
+  constructor(props){
+    super(props);
+    this.inputs = this.createRefs();
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+
+  createRefs = () => {
+    const list = [];
+    for (let i = 0; i < this.props.submissions.length; i++){
+      for (let j = 0; j < this.props.problems.length; j++){
+        list.push(React.createRef());
+      }
+    }
+    return list;
+  }
+
   //Returns a list for the total score on the assignment for each student
   getTotals = () => {
     return this.props.submissions.map(studentData => {
@@ -123,89 +134,83 @@ class GradeTable extends Component {
     event.preventDefault();
     const lastRow = this.props.submissions.length - 1;
     const lastProblem = this.props.problems.length - 1;
+    const currentCell = (rowNum * (lastProblem+1)) + problemNum;
+
+    const moveUp = () => {
+      if (rowNum > 0) {
+        const focusCell = currentCell - (lastProblem+1);
+        this.inputs[focusCell].current.focus();
+      } else {
+        const focusCell = (lastRow * (lastProblem+1)) + problemNum;
+        this.inputs[focusCell].current.focus();
+      }
+    }
+
+    const moveDown = () => {
+      if (rowNum < lastRow) {
+        const focusCell = currentCell + (lastProblem+1);
+        this.inputs[focusCell].current.focus();
+      } else {
+        const focusCell = problemNum;
+        this.inputs[focusCell].current.focus();
+      }
+    }
+
+    const moveLeft = () => {
+      if (problemNum > 0 || rowNum > 0) {
+        const focusCell = currentCell - 1;
+        this.inputs[focusCell].current.focus();
+      } else {
+        const focusCell = (lastRow * (lastProblem+1)) + lastProblem;
+        this.inputs[focusCell].current.focus();
+      }
+    }
+
+    const moveRight = () => {
+      if (problemNum < lastProblem || rowNum < lastRow) {
+        const focusCell = currentCell + 1;
+        this.inputs[focusCell].current.focus();
+      } else {
+        const focusCell = 0;
+        this.inputs[focusCell].current.focus();
+      }
+    }
+
     switch (event.key) {
       case 'ArrowUp':
       case 'w':
-        if (rowNum > 0) {
-          this.getCell(rowNum - 1, problemNum).focus();
-        } else {
-          this.getCell(lastRow, problemNum).focus();
-        }
+        moveUp();
         break;
       case 'ArrowDown':
       case 's':
-        if (rowNum < lastRow) {
-          this.getCell(rowNum + 1, problemNum).focus();
-        } else {
-          this.getCell(0, problemNum).focus();
-        }
+        moveDown();
         break;
       case 'ArrowLeft':
       case 'a':
-        if (problemNum > 0) {
-          this.getCell(rowNum, problemNum - 1).focus();
-        } else if (rowNum > 0) {
-          this.getCell(rowNum - 1, lastProblem).focus();
-        } else {
-          this.getCell(lastRow, lastProblem).focus();
-        }
+        moveLeft();
         break;
       case 'ArrowRight':
       case 'Enter':
       case 'Tab':
       case 'd':
-          if (problemNum < lastProblem) {
-            this.getCell(rowNum, problemNum + 1).focus();
-          } else if (rowNum < lastRow) {
-            this.getCell(rowNum + 1, 0).focus();
-          } else {
-            this.getCell(0, 0).focus();
-          }
-          break;
+        moveRight();
+        break;
       case '1':
       case '0':
         const nodeValue = parseInt(event.key, 10);
-        this.getCell(rowNum, problemNum).value = nodeValue;
+        // this.getCell(rowNum, problemNum).value = nodeValue;
         this.props.onChange(studentId, rowNum, problemNum, nodeValue);
-        if (problemNum < lastProblem) {
-          this.getCell(rowNum, problemNum + 1).focus();
-        } else if (rowNum < lastRow) {
-          this.getCell(rowNum + 1, 0).focus();
-        } else {
-          this.getCell(0, 0).focus();
-        }
+        moveRight();
         break;
       case ' ':
-        this.getCell(rowNum, problemNum).value = null;
         this.props.onChange(studentId, rowNum, problemNum, null);
-        if (problemNum < lastProblem) {
-          this.getCell(rowNum, problemNum + 1).focus();
-        } else if (rowNum < lastRow) {
-          this.getCell(rowNum + 1, 0).focus();
-        } else {
-          this.getCell(0, 0).focus();
-        }
+        moveRight();
         break;
       case 'Backspace':
-        this.getCell(rowNum, problemNum).value = null;
         this.props.onChange(studentId, rowNum, problemNum, null);
-        if (problemNum < lastProblem) {
-          this.getCell(rowNum, problemNum + 1).focus();
-        } else if (rowNum < lastRow) {
-          this.getCell(rowNum + 1, 0).focus();
-        } else {
-          this.getCell(0, 0).focus();
-        }
-        if (problemNum > 0) {
-          this.getCell(rowNum, problemNum - 1).focus();
-        } else if (rowNum > 0) {
-          this.getCell(rowNum - 1, lastProblem).focus();
-        } else {
-          this.getCell(lastRow, lastProblem).focus();
-        }
+        moveLeft();
         break;
       default:
-        //console.log("".concat(event.key).concat(", ").concat(rowNum).concat(", ").concat(problemNum))
         break;
     }
   };
@@ -269,6 +274,7 @@ class GradeTable extends Component {
                 submissions={this.props.submissions}
                 onChange={this.props.onChange}
                 handleKeyDown={this.handleKeyDown}
+                inputs={this.inputs}
               />
             ))
           ) : (
