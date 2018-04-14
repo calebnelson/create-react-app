@@ -1,32 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native-web';
+import { View, Button } from 'react-native-web';
 import { Flex } from './Flex'
 import { TextCell } from './TextCell'
 import { InputCell } from './InputCell'
 
-/*
-This component represents one cell in the grade table referring to one students score on one problem
-The props it expects are:
-- defaultValue: 1, 0, or null, the intial value the field will have that comes from the submission that already exists in the API
-- problemNum: the problem number this cell refers to
-- rowNum: the TableRow (and therefore the student) the cell refers to
-- studentId: the ID of the student the cell refers to, only used to pass into the onChange function
-- onChange: the function that dispatches the action to the redux store once the value is changed, called when the value of the cell changes directly
-- handleKeyDown: the function that handles key presses, defined in GradeTable
-*/
 class Cell extends React.Component{
-  constructor(props) {
-    super(props);
-
-  }
-
   render() {
-    const numInput = (this.props.rowNum * this.props.numProblems) + this.props.problemNum
     return (
       <InputCell
-        placeholder={numInput.toString()}
         value={this.props.defaultValue || undefined}
-        keyboardType='numeric'
+        keyboardType='default'
         maxLength={1}
         innerRef={this.props.inputRef}
         onKeyPress={event =>
@@ -44,8 +27,8 @@ class Cell extends React.Component{
 function TableColumn(props){
   return (
     <Flex col>
-      <TextCell>{props.problemNum+1}</TextCell>
-      <TextCell>{props.columnTotal}</TextCell>
+      <TextCell col>{props.problemNum+1}</TextCell>
+      <TextCell col>{props.columnTotal}</TextCell>
       {props.submissions.map((submissionData, index) => (
         <Cell
           key={''
@@ -54,7 +37,6 @@ function TableColumn(props){
             .concat(props.problemNum)}
           defaultValue={submissionData.responses[props.problemNum]}
           problemNum={props.problemNum}
-          numProblems={submissionData.responses.length}
           rowNum={index}
           studentId={submissionData.studentId}
           onChange={props.onChange}
@@ -66,17 +48,6 @@ function TableColumn(props){
   )
 }
 
-/*
-This component refers to the entire GradeTable itself -
-since it is the highest level component in the file, most of the state handling happens here.
-The props it expects are:
-- assignment: the currently selected assignment
-- problems: the set of problems in the assignment
-- submissions: the JSON object that stores all the students and their responses to the problems
-- columns: a list that holds the sum of the results on each individual problem for easy analysis
-- onChange: the function that propogates every response change to the redux store
-- submit: the function that submits the assignment
-*/
 class GradeTable extends Component {
   constructor(props){
     super(props);
@@ -128,8 +99,6 @@ class GradeTable extends Component {
     return 0;
   };
 
-  //handles navigation through the gradeTable with the arrow keys or WASD
-  //passed to the individual cells and called there
   handleKeyDown = (event, rowNum, problemNum, studentId) => {
     event.preventDefault();
     const lastRow = this.props.submissions.length - 1;
@@ -137,43 +106,51 @@ class GradeTable extends Component {
     const currentCell = (rowNum * (lastProblem+1)) + problemNum;
 
     const moveUp = () => {
+      let focusCell;
       if (rowNum > 0) {
-        const focusCell = currentCell - (lastProblem+1);
+        focusCell = currentCell - (lastProblem+1);
         this.inputs[focusCell].current.focus();
       } else {
-        const focusCell = (lastRow * (lastProblem+1)) + problemNum;
+        focusCell = (lastRow * (lastProblem+1)) + problemNum;
         this.inputs[focusCell].current.focus();
       }
+      return focusCell;
     }
 
     const moveDown = () => {
+      let focusCell;
       if (rowNum < lastRow) {
-        const focusCell = currentCell + (lastProblem+1);
+        focusCell = currentCell + (lastProblem+1);
         this.inputs[focusCell].current.focus();
       } else {
-        const focusCell = problemNum;
+        focusCell = problemNum;
         this.inputs[focusCell].current.focus();
       }
+      return focusCell;
     }
 
     const moveLeft = () => {
+      let focusCell;
       if (problemNum > 0 || rowNum > 0) {
-        const focusCell = currentCell - 1;
+        focusCell = currentCell - 1;
         this.inputs[focusCell].current.focus();
       } else {
-        const focusCell = (lastRow * (lastProblem+1)) + lastProblem;
+        focusCell = (lastRow * (lastProblem+1)) + lastProblem;
         this.inputs[focusCell].current.focus();
       }
+      return focusCell;
     }
 
     const moveRight = () => {
+      let focusCell;
       if (problemNum < lastProblem || rowNum < lastRow) {
-        const focusCell = currentCell + 1;
+        focusCell = currentCell + 1;
         this.inputs[focusCell].current.focus();
       } else {
-        const focusCell = 0;
+        focusCell = 0;
         this.inputs[focusCell].current.focus();
       }
+      return focusCell;
     }
 
     switch (event.key) {
@@ -198,7 +175,6 @@ class GradeTable extends Component {
       case '1':
       case '0':
         const nodeValue = parseInt(event.key, 10);
-        // this.getCell(rowNum, problemNum).value = nodeValue;
         this.props.onChange(studentId, rowNum, problemNum, nodeValue);
         moveRight();
         break;
@@ -213,16 +189,6 @@ class GradeTable extends Component {
       default:
         break;
     }
-  };
-
-  //Returns the cell component at (rowNum, problemNum)
-  getCell = (rowNum, problemNum) => {
-    return document.getElementById(
-      ''
-        .concat(rowNum)
-        .concat(', ')
-        .concat(problemNum)
-    );
   };
 
   render() {
