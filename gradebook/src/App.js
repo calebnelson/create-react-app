@@ -10,11 +10,14 @@ class App extends Component {
   render() {
     return (
       <View>
-        <Text>Ardent Academy Gradebook App</Text>
         <SelectorsContainer />
-        {(this.props.needsClass || this.props.needsLesson || this.props.needsAssignment)
-          ? <Text>Choose Class, Lesson and Assignment</Text>
-          : <GradeTableContainer />}
+        {this.props.needsClass ||
+        this.props.needsLesson ||
+        this.props.needsAssignment ? (
+          <Text>Choose Class, Lesson and Assignment</Text>
+        ) : (
+          <GradeTableContainer />
+        )}
       </View>
     );
   }

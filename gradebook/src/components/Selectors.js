@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
 import { View, Text, Picker } from 'react-native-web';
+import { Flex } from './Flex';
 
 function Classes(props) {
   return (
     <Picker
       onValueChange={(itemValue, itemPosition) => props.onChange(itemValue)}
     >
-      <Picker.Item value="Select Classroom" key="Select Classroom" label="Select Classroom" />
+      <Picker.Item
+        value="Select Classroom"
+        key="Select Classroom"
+        label="Select Classroom"
+      />
       {props.classes ? (
         props.classes.map(data => (
-          <Picker.Item value={data.id} key={data.id} label={data ? data.code : 'Getting Classes...'} />
+          <Picker.Item
+            value={data.id}
+            key={data.id}
+            label={data ? data.code : 'Getting Classes...'}
+          />
         ))
       ) : (
         'No Classes'
@@ -23,18 +32,26 @@ function Lessons(props) {
     <Picker
       onValueChange={(itemValue, itemPosition) => props.onChange(itemValue)}
     >
-      <Picker.Item value="Select Lesson" key="Select Lesson" label="Select Lesson" />
+      <Picker.Item
+        value="Select Lesson"
+        key="Select Lesson"
+        label="Select Lesson"
+      />
       {props.lessons ? (
         props.lessons.map(data => (
-          <Picker.Item value={data.id} key={data.id} 
-            label={data.lessonPlan ? (
-              data.lessonPlan.order
-                .toString()
-                .concat('. ')
-                .concat(data.lessonPlan.title)
-            ) : (
-              'No Lesson Plan Found'
-            )}
+          <Picker.Item
+            value={data.id}
+            key={data.id}
+            label={
+              data.lessonPlan ? (
+                data.lessonPlan.order
+                  .toString()
+                  .concat('. ')
+                  .concat(data.lessonPlan.title)
+              ) : (
+                'No Lesson Plan Found'
+              )
+            }
           />
         ))
       ) : (
@@ -49,18 +66,26 @@ function Assignments(props) {
     <Picker
       onValueChange={(itemValue, itemPosition) => props.onChange(itemValue)}
     >
-      <Picker.Item value="Select Assignment" key="Select Assignment" label="Select Assignment" />
+      <Picker.Item
+        value="Select Assignment"
+        key="Select Assignment"
+        label="Select Assignment"
+      />
       {props.assignments ? (
         props.assignments.map(data => (
-          <Picker.Item value={data.id} key={data.id} 
-            label={data.problemSet ? (
-              data.problemSet.order
-                .toString()
-                .concat('. ')
-                .concat(data.problemSet.title)
-            ) : (
-              'No Problem Set Found'
-            )}
+          <Picker.Item
+            value={data.id}
+            key={data.id}
+            label={
+              data.problemSet ? (
+                data.problemSet.order
+                  .toString()
+                  .concat('. ')
+                  .concat(data.problemSet.title)
+              ) : (
+                'No Problem Set Found'
+              )
+            }
           />
         ))
       ) : (
@@ -77,7 +102,7 @@ class Selectors extends Component {
 
   render() {
     return (
-      <View>
+      <Flex col>
         <Text>Classroom: </Text>
         <Classes
           key="classSelector"
@@ -96,7 +121,7 @@ class Selectors extends Component {
           assignments={this.props.assignments}
           onChange={this.props.onAssignmentChange}
         />
-      </View>
+      </Flex>
     );
   }
 }
