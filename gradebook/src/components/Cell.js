@@ -5,7 +5,7 @@ class Cell extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.defaultValue || ' ',
+      value: this.props.defaultValue || '',
     };
   }
 
@@ -20,7 +20,7 @@ class Cell extends Component {
       case ' ':
       case 'Backspace':
         this.setState({
-          value: ' ',
+          value: '',
         });
         break;
 
