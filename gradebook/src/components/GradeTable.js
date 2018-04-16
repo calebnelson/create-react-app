@@ -218,9 +218,7 @@ class GradeTable extends Component {
           </Flex>
           <Flex col>
             <TextCell>Percent</TextCell>
-            <TextCell>
-              {this.getTotal() * (this.props.problems.length || 0) / 100}
-            </TextCell>
+            <TextCell>{''.concat(this.getTotal()).concat('%')}</TextCell>
             {this.getTotals().map((total, index) => (
               <TextCell key={'percent'.concat(index)}>
                 {''
