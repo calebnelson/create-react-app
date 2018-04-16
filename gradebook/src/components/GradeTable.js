@@ -1,33 +1,13 @@
 import React, { Component } from 'react';
 import { View, Button } from 'react-native-web';
-import { Flex } from './Flex'
-import { TextCell } from './TextCell'
-import { InputCell } from './InputCell'
+import { Flex } from './Flex';
+import { TextCell } from './TextCell';
+import Cell from './Cell';
 
-class Cell extends React.Component{
-  render() {
-    return (
-      <InputCell
-        value={this.props.defaultValue || undefined}
-        keyboardType='default'
-        maxLength={1}
-        innerRef={this.props.inputRef}
-        onKeyPress={event =>
-          this.props.handleKeyDown(
-            event,
-            this.props.rowNum,
-            this.props.problemNum,
-            this.props.studentId
-          )}
-      />
-    );
-  }
-}
-
-function TableColumn(props){
+function TableColumn(props) {
   return (
     <Flex col>
-      <TextCell col>{props.problemNum+1}</TextCell>
+      <TextCell col>{props.problemNum + 1}</TextCell>
       <TextCell col>{props.columnTotal}</TextCell>
       {props.submissions.map((submissionData, index) => (
         <Cell
@@ -41,15 +21,19 @@ function TableColumn(props){
           studentId={submissionData.studentId}
           onChange={props.onChange}
           handleKeyDown={props.handleKeyDown}
-          inputRef={props.inputs[(index * submissionData.responses.length) + props.problemNum]}
+          inputRef={
+            props.inputs[
+              index * submissionData.responses.length + props.problemNum
+            ]
+          }
         />
       ))}
     </Flex>
-  )
+  );
 }
 
 class GradeTable extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.inputs = this.createRefs();
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -57,13 +41,13 @@ class GradeTable extends Component {
 
   createRefs = () => {
     const list = [];
-    for (let i = 0; i < this.props.submissions.length; i++){
-      for (let j = 0; j < this.props.problems.length; j++){
+    for (let i = 0; i < this.props.submissions.length; i++) {
+      for (let j = 0; j < this.props.problems.length; j++) {
         list.push(React.createRef());
       }
     }
     return list;
-  }
+  };
 
   //Returns a list for the total score on the assignment for each student
   getTotals = () => {
@@ -91,9 +75,11 @@ class GradeTable extends Component {
       }
       return a + b;
     }, 0);
-    if (this.props.submissions.length > 0 && this.props.problems.length > 0){
+    if (this.props.submissions.length > 0 && this.props.problems.length > 0) {
       return Math.round(
-        total * 100 / (this.props.submissions.length * this.props.problems.length)
+        total *
+          100 /
+          (this.props.submissions.length * this.props.problems.length)
       );
     }
     return 0;
@@ -103,31 +89,31 @@ class GradeTable extends Component {
     event.preventDefault();
     const lastRow = this.props.submissions.length - 1;
     const lastProblem = this.props.problems.length - 1;
-    const currentCell = (rowNum * (lastProblem+1)) + problemNum;
+    const currentCell = rowNum * (lastProblem + 1) + problemNum;
 
     const moveUp = () => {
       let focusCell;
       if (rowNum > 0) {
-        focusCell = currentCell - (lastProblem+1);
+        focusCell = currentCell - (lastProblem + 1);
         this.inputs[focusCell].current.focus();
       } else {
-        focusCell = (lastRow * (lastProblem+1)) + problemNum;
+        focusCell = lastRow * (lastProblem + 1) + problemNum;
         this.inputs[focusCell].current.focus();
       }
       return focusCell;
-    }
+    };
 
     const moveDown = () => {
       let focusCell;
       if (rowNum < lastRow) {
-        focusCell = currentCell + (lastProblem+1);
+        focusCell = currentCell + (lastProblem + 1);
         this.inputs[focusCell].current.focus();
       } else {
         focusCell = problemNum;
         this.inputs[focusCell].current.focus();
       }
       return focusCell;
-    }
+    };
 
     const moveLeft = () => {
       let focusCell;
@@ -135,11 +121,11 @@ class GradeTable extends Component {
         focusCell = currentCell - 1;
         this.inputs[focusCell].current.focus();
       } else {
-        focusCell = (lastRow * (lastProblem+1)) + lastProblem;
+        focusCell = lastRow * (lastProblem + 1) + lastProblem;
         this.inputs[focusCell].current.focus();
       }
       return focusCell;
-    }
+    };
 
     const moveRight = () => {
       let focusCell;
@@ -151,7 +137,7 @@ class GradeTable extends Component {
         this.inputs[focusCell].current.focus();
       }
       return focusCell;
-    }
+    };
 
     switch (event.key) {
       case 'ArrowUp':
@@ -200,7 +186,9 @@ class GradeTable extends Component {
             <TextCell>First Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell key={"firstname".concat(index)}>{studentData.firstName}</TextCell>
+                <TextCell key={'firstname'.concat(index)}>
+                  {studentData.firstName}
+                </TextCell>
               ))
             ) : (
               <TextCell>No Students</TextCell>
@@ -211,7 +199,9 @@ class GradeTable extends Component {
             <TextCell>Last Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell key={"lastname".concat(index)}>{studentData.lastName}</TextCell>
+                <TextCell key={'lastname'.concat(index)}>
+                  {studentData.lastName}
+                </TextCell>
               ))
             ) : (
               <TextCell>No Students</TextCell>
@@ -219,16 +209,24 @@ class GradeTable extends Component {
           </Flex>
           <Flex col>
             <TextCell>Total</TextCell>
-            <TextCell>{this.getTotal() * (this.props.problems.length || 0) / 100}</TextCell>
+            <TextCell>
+              {this.getTotal() * (this.props.problems.length || 0) / 100}
+            </TextCell>
             {this.getTotals().map((total, index) => (
-              <TextCell key={"total".concat(index)}>{total}</TextCell>
+              <TextCell key={'total'.concat(index)}>{total}</TextCell>
             ))}
           </Flex>
           <Flex col>
             <TextCell>Percent</TextCell>
-            <TextCell>{this.getTotal() * (this.props.problems.length || 0) / 100}</TextCell>
+            <TextCell>
+              {this.getTotal() * (this.props.problems.length || 0) / 100}
+            </TextCell>
             {this.getTotals().map((total, index) => (
-              <TextCell key={'percent'.concat(index)}>{''.concat(total * 100 / this.props.problems.length).concat('%')}</TextCell>
+              <TextCell key={'percent'.concat(index)}>
+                {''
+                  .concat(total * 100 / this.props.problems.length)
+                  .concat('%')}
+              </TextCell>
             ))}
           </Flex>
           {this.props.problems ? (
@@ -249,7 +247,7 @@ class GradeTable extends Component {
         </Flex>
         <Button id="submitButton" onPress={this.props.submit} title="Submit" />
       </View>
-    )
+    );
   }
 }
 export default GradeTable;
