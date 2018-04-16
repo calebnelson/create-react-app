@@ -154,7 +154,6 @@ class GradeTable extends Component {
         break;
       case 'ArrowRight':
       case 'Enter':
-      case 'Tab':
       case 'd':
         moveRight();
         break;
