@@ -24,7 +24,9 @@ export const onSubmissionChange = (studentId, problemNum, response) => ({
   response,
 });
 
-export const submit = submissions => ({
+export const submit = (aid, pids, input) => ({
   type: 'SUBMIT',
-  payload: submissions,
+  aid,
+  pids,
+  input,
 });

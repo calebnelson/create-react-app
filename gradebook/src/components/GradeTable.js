@@ -242,7 +242,7 @@ class GradeTable extends Component {
             'No Students'
           )}
         </Flex>
-        <Button id="submitButton" onPress={this.props.submit} title="Submit" />
+        <Button id="submitButton" onPress={this.props.submit(this.props.assignment, this.props.problems, this.props.submissions)} title="Submit" />
       </View>
     );
   }

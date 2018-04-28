@@ -23,8 +23,13 @@ const mapDispatchToProps = dispatch => {
         )
       );
     },
-    submit: submissions => {
-      dispatch(submit(submissions));
+    submit: (aid, pids, submissions) => {
+      dispatch(submit(aid, pids, submissions.map(submission => {
+        return {
+          studentId: submission.studentId,
+          responses: submission.responses,
+        }
+      })));
     },
   };
 };

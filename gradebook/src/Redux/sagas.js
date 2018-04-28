@@ -60,6 +60,15 @@ const queryOnAssignment = `
   }
 `;
 
+const submitGrades = `
+  mutation($aid: ID!, $pids: [ID], $input: [GradeAssignmentInput!]){
+    gradeAssignment(assignmentId: $aid, problemIds: $pids, input: $input){
+      success
+      message
+    }
+  }
+`
+
 export function* queryRoot(action) {
   try {
     const res = yield call(query, queryOnRoot);
@@ -146,11 +155,32 @@ export function* queryAssignment(action) {
   }
 }
 
+export function* submit(action){
+  try{
+    const variables = '{ "aid": "'
+      .concat(action.aid)
+      .concat('", "pids": "')
+      .concat(action.pids)
+      .concat('", "input": "')
+      .concat(action.input);
+    const res = yield call(query, submitGrades, variables);
+    yield put({
+      type: 'SUBMIT_SUCCESS',
+    })
+  } catch(err) {
+    yield put({
+      type: 'SUBMIT_ERROR',
+      payload: err,
+    });
+  }
+}
+
 export default function* sagas() {
   yield all([
     takeLatest('QUERY_ROOT', queryRoot),
     takeLatest('QUERY_CLASS', queryClass),
     takeLatest('QUERY_LESSON', queryLesson),
     takeLatest('QUERY_ASSIGNMENT', queryAssignment),
+    takeLatest('SUBMIT', submit)
   ]);
 }
