@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Picker } from 'react-native-web';
+import { Text, Picker } from 'react-native-web';
 import { Flex } from './Flex';
 
 function Classes(props) {
