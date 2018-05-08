@@ -12,8 +12,8 @@ const queryOnRoot = `
 `;
 
 const queryOnClass = `
-  query queryOnClass($classID: ID!) {
-    classroom(id: $classID) {
+  query queryOnClass($classId: ID!) {
+    classroom(id: $classId) {
       enrollments {
         id
         student {
@@ -34,8 +34,8 @@ const queryOnClass = `
 `;
 
 const queryOnLesson = `
-  query queryOnLesson($lessonID: ID!) {
-      lesson(id: $lessonID) {
+  query queryOnLesson($lessonId: ID!) {
+      lesson(id: $lessonId) {
           assignments {
               id
               problemSet {
@@ -48,14 +48,18 @@ const queryOnLesson = `
 `;
 
 const queryOnAssignment = `
-  query queryOnAssignment($assignmentID: ID!) {
-    assignment(id: $assignmentID) {
+  query queryOnAssignment($assignmentId: ID!) {
+    assignment(id: $assignmentId) {
       problemSet {
         problems {
           id
           order
         }
       }
+    }
+    gradesForAssignment(id: $assignmentId, fillEmpty: true){
+      studentId
+      responses
     }
   }
 `;
@@ -89,7 +93,7 @@ export function* queryRoot(action) {
 
 export function* queryClass(action) {
   try {
-    const variables = '{ "classID": "'.concat(action.payload).concat('" }');
+    const variables = '{ "classId": "'.concat(action.payload).concat('" }');
     const res = yield call(query, queryOnClass, variables);
     const sortedLessons = res.data.classroom.lessons.sort(
       (a, b) => a.lessonPlan.order - b.lessonPlan.order
@@ -117,7 +121,7 @@ export function* queryClass(action) {
 
 export function* queryLesson(action) {
   try {
-    const variables = '{ "lessonID": "'.concat(action.payload).concat('" }');
+    const variables = '{ "lessonId": "'.concat(action.payload).concat('" }');
     const res = yield call(query, queryOnLesson, variables);
     const sortedAssignments = res.data.lesson.assignments.sort(
       (a, b) => a.problemSet.order - b.problemSet.order
@@ -136,7 +140,7 @@ export function* queryLesson(action) {
 
 export function* queryAssignment(action) {
   try {
-    const variables = '{ "assignmentID": "'
+    const variables = '{ "assignmentId": "'
       .concat(action.payload)
       .concat('" }');
     const res = yield call(query, queryOnAssignment, variables);
@@ -145,7 +149,10 @@ export function* queryAssignment(action) {
     );
     yield put({
       type: 'QUERY_ASSIGNMENT_SUCCESS',
-      payload: { problems: sortedProblems },
+      payload: {
+        problems: sortedProblems,
+        grades: res.data.gradesForAssignment,
+      },
     });
   } catch (err) {
     yield put({
@@ -164,9 +171,18 @@ export function* submit(action){
       .concat('", "input": "')
       .concat(action.input);
     const res = yield call(query, submitGrades, variables);
-    yield put({
-      type: 'SUBMIT_SUCCESS',
-    })
+    if(res.data.gradeAssignment.success){
+      yield put({
+        type: 'SUBMIT_SUCCESS',
+        payload: res.data.gradeAssignment.message,
+      })
+    }
+    else{
+      yield put({
+        type: 'SUBMIT_ERROR',
+        payload: res.data.gradeAssignment.message,
+      })
+    }
   } catch(err) {
     yield put({
       type: 'SUBMIT_ERROR',
