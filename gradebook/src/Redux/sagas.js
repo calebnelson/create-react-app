@@ -58,7 +58,11 @@ const queryOnAssignment = `
       }
     }
     gradesForAssignment(id: $assignmentId, fillEmpty: true){
-      studentId
+      student{
+        id
+        firstName
+        lastName
+      }
       responses
     }
   }

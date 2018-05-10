@@ -9,8 +9,8 @@ function TableColumn(props) {
     <Flex col>
       <TextCell col>{props.problemNum + 1}</TextCell>
       <TextCell col>{props.columnTotal}</TextCell>
-      {props.submissions.map((submissionData, index) => (
-        <Cell
+      {props.submissions.map((submissionData, index) => {
+        return <Cell
           key={''
             .concat(index)
             .concat(', ')
@@ -18,7 +18,7 @@ function TableColumn(props) {
           defaultValue={submissionData.responses[props.problemNum]}
           problemNum={props.problemNum}
           rowNum={index}
-          studentId={submissionData.studentId}
+          studentId={submissionData.student.id}
           onChange={props.onChange}
           handleKeyDown={props.handleKeyDown}
           inputRef={
@@ -27,7 +27,7 @@ function TableColumn(props) {
             ]
           }
         />
-      ))}
+      })}
     </Flex>
   );
 }
@@ -186,7 +186,7 @@ class GradeTable extends Component {
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
                 <TextCell key={'firstname'.concat(index)}>
-                  {studentData.firstName}
+                  {studentData.student.firstName}
                 </TextCell>
               ))
             ) : (
@@ -199,7 +199,7 @@ class GradeTable extends Component {
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
                 <TextCell key={'lastname'.concat(index)}>
-                  {studentData.lastName}
+                  {studentData.student.lastName}
                 </TextCell>
               ))
             ) : (
@@ -242,7 +242,7 @@ class GradeTable extends Component {
             'No Students'
           )}
         </Flex>
-        <Button id="submitButton" onPress={this.props.submit(this.props.assignment, this.props.problems, this.props.submissions)} title="Submit" />
+        <Button id="submitButton" onPress={() => this.props.submit(this.props.assignment, this.props.problems, this.props.submissions)} title="Submit" />
       </View>
     );
   }

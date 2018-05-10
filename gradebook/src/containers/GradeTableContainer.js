@@ -26,7 +26,7 @@ const mapDispatchToProps = dispatch => {
     submit: (aid, pids, submissions) => {
       dispatch(submit(aid, pids, submissions.map(submission => {
         return {
-          studentId: submission.studentId,
+          studentId: submission.student.id,
           responses: submission.responses,
         }
       })));
