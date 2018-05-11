@@ -70,7 +70,7 @@ const queryOnAssignment = `
 
 const submitGrades = `
   mutation($aid: ID!, $pids: [ID], $input: [GradeAssignmentInput!]){
-    gradeAssignment(assignmentId: $aid, problemIds: $pids, input: $input){
+    gradeAssignment(assignmentId: $aid, problemIds: $pids, inputs: $input){
       success
       message
     }
@@ -168,12 +168,11 @@ export function* queryAssignment(action) {
 
 export function* submit(action){
   try{
-    const variables = '{ "aid": "'
-      .concat(action.aid)
-      .concat('", "pids": "')
-      .concat(action.pids)
-      .concat('", "input": "')
-      .concat(action.input);
+    const variables = {
+      aid: action.aid,
+      pids: action.pids,
+      input: action.input,
+    }
     const res = yield call(query, submitGrades, variables);
     if(res.data.gradeAssignment.success){
       yield put({
