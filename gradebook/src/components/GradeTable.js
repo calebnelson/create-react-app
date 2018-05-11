@@ -15,7 +15,7 @@ function TableColumn(props) {
             .concat(index)
             .concat(', ')
             .concat(props.problemNum)}
-          defaultValue={submissionData.responses[props.problemNum]}
+          defaultValue={submissionData.responses[props.problemNum] && submissionData.responses[props.problemNum].toString()}
           problemNum={props.problemNum}
           rowNum={index}
           studentId={submissionData.student.id}
@@ -243,6 +243,8 @@ class GradeTable extends Component {
           )}
         </Flex>
         <Button id="submitButton" onPress={() => this.props.submit(this.props.assignment, this.props.problems, this.props.submissions)} title="Submit" />
+        <Button id="revertButton" onPress={() => this.props.revert(this.props.assignment)} title="Revert Changes" color='red'/>
+        <Button id="resetButton" onPress={() => this.props.reset()} title="Reset Application" color='black'/>
       </View>
     );
   }

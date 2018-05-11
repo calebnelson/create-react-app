@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import GradeTable from '../components/GradeTable';
-import { onSubmissionChange, submit } from '../Redux/actions';
+import { runQueryOnRoot, onAssignmentChange, onSubmissionChange, submit, reset } from '../Redux/actions';
 
 const mapStateToProps = state => {
   return {
@@ -33,8 +33,19 @@ const mapDispatchToProps = dispatch => {
             studentId: submission.student.id,
             responses: submission.responses,
           }
-      })));
+        })
+      ));
+      alert("Grades Submitted!");
     },
+    revert: (assignmentId) => {
+      dispatch(onAssignmentChange(assignmentId));
+      alert("Changes reverted, original grades pulled from database");
+    },
+    reset: () => {
+      dispatch(reset());
+      dispatch(runQueryOnRoot());
+      alert("Changes discarded");
+    }
   };
 };
 

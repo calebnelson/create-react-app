@@ -13,8 +13,8 @@ export const submissionsReducer = (state = defaultState, action) => {
 
       newColumns = action.payload.problems.map((index) => 
         newSubmissions.reduce((accumulator, currentValue) => {
-          const currentResponse = currentValue.responses[index];
-          return accumulator + (currentResponse || 0);
+          const currentResponse = currentValue.responses[index.order-1];
+          return accumulator + currentResponse;
         }, 0)
       );
       
@@ -56,6 +56,8 @@ export const submissionsReducer = (state = defaultState, action) => {
         submissions: newSubmissions,
         columns: newColumns,
       };
+    case 'RESET':
+      return defaultState;
     default:
       return state;
   }

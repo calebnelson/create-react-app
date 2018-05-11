@@ -30,7 +30,7 @@ class GraphQLClient {
   };
 }
 
-const host = 'https://ardent-api-next.ardentlabs.io';
+const host = 'http://localhost:3000';
 const client = new GraphQLClient(host);
 
 export const query = client.query;

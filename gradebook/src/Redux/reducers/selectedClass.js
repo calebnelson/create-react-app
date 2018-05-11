@@ -9,6 +9,11 @@ export const selectedClassReducer = (state = defaultState, action) => {
         ...state,
         selectedClass: action.payload,
       };
+    case 'RESET':
+      return {
+        ...state,
+        selectedClass: defaultState.selectedClass,
+      }
     default:
       return state;
   }

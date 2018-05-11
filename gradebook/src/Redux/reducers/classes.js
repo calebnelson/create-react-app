@@ -25,6 +25,8 @@ export const classesReducer = (state = defaultState, action) => {
         loading: false,
         classes: defaultState.classes,
       };
+    case 'RESET':
+      return defaultState;
     default:
       return state;
   }

@@ -30,3 +30,7 @@ export const submit = (aid, pids, input) => ({
   pids,
   input,
 });
+
+export const reset = () => ({
+  type: 'RESET',
+});

@@ -7,17 +7,22 @@ export const selectedAssignmentReducer = (state = defaultState, action) => {
     case 'QUERY_CLASS':
       return {
         ...state,
-        selectedAssignment: undefined,
+        selectedAssignment: defaultState.selectedAssignment,
       };
     case 'QUERY_LESSON':
       return {
         ...state,
-        selectedAssignment: undefined,
+        selectedAssignment: defaultState.selectedAssignment,
       };
     case 'QUERY_ASSIGNMENT':
       return {
         ...state,
         selectedAssignment: action.payload,
+      };
+    case 'RESET':
+      return {
+        ...state,
+        selectedAssignment: defaultState.selectedAssignment,
       };
     default:
       return state;

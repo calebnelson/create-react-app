@@ -7,12 +7,17 @@ export const selectedLessonReducer = (state = defaultState, action) => {
     case 'QUERY_CLASS':
       return {
         ...state,
-        selectedLesson: undefined,
+        selectedLesson: defaultState.selectedLesson,
       };
     case 'QUERY_LESSON':
       return {
         ...state,
         selectedLesson: action.payload,
+      };
+    case 'RESET':
+      return {
+        ...state,
+        selectedLesson: defaultState.selectedLesson,
       };
     default:
       return state;

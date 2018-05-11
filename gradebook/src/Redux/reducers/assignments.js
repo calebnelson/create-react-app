@@ -30,6 +30,8 @@ export const assignmentsReducer = (state = defaultState, action) => {
         error: payload.message || payload.toString() || 'Unknown error',
         loading: false,
       };
+    case 'RESET':
+      return defaultState;
     default:
       return state;
   }
