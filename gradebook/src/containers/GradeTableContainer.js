@@ -24,27 +24,33 @@ const mapDispatchToProps = dispatch => {
       );
     },
     submit: (aid, pids, submissions) => {
-      dispatch(submit(aid, 
-        pids.map(problem => {
-          return problem.id;
-        }), 
-        submissions.map(submission => {
-          return {
-            studentId: submission.student.id,
-            responses: submission.responses,
-          }
-        })
-      ));
-      alert("Grades Submitted!");
+      if(window.confirm("Do you want to submit these grades for this assignment?")){
+        dispatch(submit(aid, 
+          pids.map(problem => {
+            return problem.id;
+          }), 
+          submissions.map(submission => {
+            return {
+              studentId: submission.student.id,
+              responses: submission.responses,
+            }
+          })
+        ));
+        alert("Grades Submitted!");
+      }
     },
     revert: (assignmentId) => {
-      dispatch(onAssignmentChange(assignmentId));
-      alert("Changes reverted, original grades pulled from database");
+      if(window.confirm("Do you want to revert your changes?")){
+        dispatch(onAssignmentChange(assignmentId));
+        alert("Changes reverted, original grades pulled from database");
+      }
     },
     reset: () => {
-      dispatch(reset());
-      dispatch(runQueryOnRoot());
-      alert("Changes discarded");
+      if(window.confirm("Do you want to reset the application")){
+        dispatch(reset());
+        dispatch(runQueryOnRoot());
+        alert("Changes discarded");
+      }
     }
   };
 };
