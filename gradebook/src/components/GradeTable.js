@@ -10,12 +10,24 @@ function TableColumn(props) {
       <TextCell col>{props.problemNum + 1}</TextCell>
       <TextCell col>{props.columnTotal}</TextCell>
       {props.submissions.map((submissionData, index) => {
+        let value;
+        switch(submissionData.responses[props.problemNum]){
+          case 1:
+            value = "1";
+            break;
+          case 0:
+            value = "0";
+            break;
+          default:
+            value = "";
+            break;
+        }
         return <Cell
           key={''
             .concat(index)
             .concat(', ')
             .concat(props.problemNum)}
-          defaultValue={submissionData.responses[props.problemNum] && submissionData.responses[props.problemNum].toString()}
+          defaultValue={value}
           problemNum={props.problemNum}
           rowNum={index}
           studentId={submissionData.student.id}
