@@ -4,6 +4,10 @@ import { Flex } from './Flex';
 import { TextCell } from './TextCell';
 import { TableColumn } from './TableColumn';
 
+const GradeTableFlex = Flex.extend`
+  margin: 1em;
+`
+
 class GradeTable extends Component {
   constructor(props) {
     super(props);
@@ -151,8 +155,8 @@ class GradeTable extends Component {
   render() {
     return (
       <View>
-        <Flex>
-          <Flex col>
+        <GradeTableFlex>
+          <Flex col grow max>
             <TextCell left>Students - {this.props.submissions.length}</TextCell>
             <TextCell left>First Name</TextCell>
             {this.props.submissions ? (
@@ -165,7 +169,7 @@ class GradeTable extends Component {
               <TextCell>No Students</TextCell>
             )}
           </Flex>
-          <Flex col>
+          <Flex col grow max>
             <TextCell></TextCell>
             <TextCell left>Last Name</TextCell>
             {this.props.submissions ? (
@@ -178,7 +182,7 @@ class GradeTable extends Component {
               <TextCell>No Students</TextCell>
             )}
           </Flex>
-          <Flex col>
+          <Flex col grow max>
             <TextCell>Total</TextCell>
             <TextCell>
               {this.getTotal() * (this.props.problems.length || 0) / 100}
@@ -187,11 +191,11 @@ class GradeTable extends Component {
               <TextCell key={'total'.concat(index)}>{total}</TextCell>
             ))}
           </Flex>
-          <Flex col>
+          <Flex col grow max>
             <TextCell>Percent</TextCell>
             <TextCell>{''.concat(this.getTotal()).concat('%')}</TextCell>
             {this.getTotals().map((total, index) => (
-              <TextCell key={'percent'.concat(index)}>
+              <TextCell border key={'percent'.concat(index)}>
                 {''
                   .concat(total * 100 / this.props.problems.length)
                   .concat('%')}
@@ -213,7 +217,7 @@ class GradeTable extends Component {
           ) : (
             'No Students'
           )}
-        </Flex>
+        </GradeTableFlex>
         <Button id="submitButton" onPress={() => this.props.submit(this.props.assignment, this.props.problems, this.props.submissions)} title="Submit" />
         <Button id="revertButton" onPress={() => this.props.revert(this.props.assignment)} title="Revert Changes" color='red'/>
         <Button id="resetButton" onPress={() => this.props.reset()} title="Reset Application" color='black'/>
