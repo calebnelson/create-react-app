@@ -36,8 +36,6 @@ const mapDispatchToProps = dispatch => {
             }
           })
         ));
-        dispatch(reset());
-        dispatch(runQueryOnRoot());
         alert("Grades Submitted!");
       }
     },
