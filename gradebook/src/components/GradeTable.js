@@ -8,6 +8,14 @@ const GradeTableFlex = Flex.extend`
   margin: 1em;
 `
 
+const NameFlex = Flex.extend`
+  max-width: 8em;
+`
+
+const NumFlex = Flex.extend`
+  max-width: 4em;
+`
+
 class GradeTable extends Component {
   constructor(props) {
     super(props);
@@ -156,7 +164,7 @@ class GradeTable extends Component {
     return (
       <View>
         <GradeTableFlex>
-          <Flex col grow max>
+          <NameFlex col grow>
             <TextCell left>Students - {this.props.submissions.length}</TextCell>
             <TextCell left>First Name</TextCell>
             {this.props.submissions ? (
@@ -168,8 +176,8 @@ class GradeTable extends Component {
             ) : (
               <TextCell>No Students</TextCell>
             )}
-          </Flex>
-          <Flex col grow max>
+          </NameFlex>
+          <NameFlex col grow>
             <TextCell></TextCell>
             <TextCell left>Last Name</TextCell>
             {this.props.submissions ? (
@@ -181,8 +189,8 @@ class GradeTable extends Component {
             ) : (
               <TextCell>No Students</TextCell>
             )}
-          </Flex>
-          <Flex col grow max>
+          </NameFlex>
+          <NumFlex col grow>
             <TextCell>Total</TextCell>
             <TextCell>
               {this.getTotal() * (this.props.problems.length || 0) / 100}
@@ -190,18 +198,18 @@ class GradeTable extends Component {
             {this.getTotals().map((total, index) => (
               <TextCell key={'total'.concat(index)}>{total}</TextCell>
             ))}
-          </Flex>
-          <Flex col grow max>
+          </NumFlex>
+          <NumFlex col grow>
             <TextCell>Percent</TextCell>
             <TextCell>{''.concat(this.getTotal()).concat('%')}</TextCell>
             {this.getTotals().map((total, index) => (
-              <TextCell border key={'percent'.concat(index)}>
+              <TextCell key={'percent'.concat(index)}>
                 {''
                   .concat(total * 100 / this.props.problems.length)
                   .concat('%')}
               </TextCell>
             ))}
-          </Flex>
+          </NumFlex>
           {this.props.problems ? (
             this.props.problems.map((problemData, index) => (
               <TableColumn
