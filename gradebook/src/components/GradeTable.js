@@ -2,47 +2,7 @@ import React, { Component } from 'react';
 import { View, Button } from 'react-native-web';
 import { Flex } from './Flex';
 import { TextCell } from './TextCell';
-import Cell from './Cell';
-
-function TableColumn(props) {
-  return (
-    <Flex col>
-      <TextCell col>{props.problemNum + 1}</TextCell>
-      <TextCell col>{props.columnTotal}</TextCell>
-      {props.submissions.map((submissionData, index) => {
-        let value;
-        switch(submissionData.responses[props.problemNum]){
-          case 1:
-            value = "1";
-            break;
-          case 0:
-            value = "0";
-            break;
-          default:
-            value = "";
-            break;
-        }
-        return <Cell
-          key={''
-            .concat(index)
-            .concat(', ')
-            .concat(props.problemNum)}
-          defaultValue={value}
-          problemNum={props.problemNum}
-          rowNum={index}
-          studentId={submissionData.student.id}
-          onChange={props.onChange}
-          handleKeyDown={props.handleKeyDown}
-          inputRef={
-            props.inputs[
-              index * submissionData.responses.length + props.problemNum
-            ]
-          }
-        />
-      })}
-    </Flex>
-  );
-}
+import { TableColumn } from './TableColumn';
 
 class GradeTable extends Component {
   constructor(props) {
@@ -193,11 +153,11 @@ class GradeTable extends Component {
       <View>
         <Flex>
           <Flex col>
-            <TextCell># Students</TextCell>
-            <TextCell>First Name</TextCell>
+            <TextCell left>Students - {this.props.submissions.length}</TextCell>
+            <TextCell left>First Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell key={'firstname'.concat(index)}>
+                <TextCell left key={'firstname'.concat(index)}>
                   {studentData.student.firstName}
                 </TextCell>
               ))
@@ -206,11 +166,11 @@ class GradeTable extends Component {
             )}
           </Flex>
           <Flex col>
-            <TextCell>{this.props.submissions.length}</TextCell>
-            <TextCell>Last Name</TextCell>
+            <TextCell></TextCell>
+            <TextCell left>Last Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell key={'lastname'.concat(index)}>
+                <TextCell left key={'lastname'.concat(index)}>
                   {studentData.student.lastName}
                 </TextCell>
               ))
