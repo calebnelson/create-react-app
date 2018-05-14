@@ -14,14 +14,6 @@ const queryOnRoot = `
 const queryOnClass = `
   query queryOnClass($classId: ID!) {
     classroom(id: $classId) {
-      enrollments {
-        id
-        student {
-          id
-          firstName
-          lastName
-        }
-      }
       lessons {
         id
         lessonPlan {
@@ -102,18 +94,9 @@ export function* queryClass(action) {
     const sortedLessons = res.data.classroom.lessons.sort(
       (a, b) => a.lessonPlan.order - b.lessonPlan.order
     );
-    const sortedEnrollments = res.data.classroom.enrollments.sort(
-      (a, b) => {
-        const lastNameSort = a.student.lastName.toLowerCase().localeCompare(b.student.lastName.toLowerCase())
-        if (lastNameSort === 0){
-          return a.student.firstName.toLowerCase().localeCompare(b.student.firstName.toLowerCase())
-        }
-        return lastNameSort
-      }
-    );
     yield put({
       type: 'QUERY_CLASS_SUCCESS',
-      payload: { lessons: sortedLessons, enrollments: sortedEnrollments },
+      payload: { lessons: sortedLessons },
     });
   } catch (err) {
     yield put({
@@ -151,11 +134,20 @@ export function* queryAssignment(action) {
     const sortedProblems = res.data.assignment.problemSet.problems.sort(
       (a, b) => a.order - b.order
     );
+    const sortedGrades = res.data.gradesForAssignment.sort(
+      (a, b) => {
+        const lastNameSort = a.student.lastName.toLowerCase().localeCompare(b.student.lastName.toLowerCase())
+        if (lastNameSort === 0){
+          return a.student.firstName.toLowerCase().localeCompare(b.student.firstName.toLowerCase())
+        }
+        return lastNameSort
+      }
+    );
     yield put({
       type: 'QUERY_ASSIGNMENT_SUCCESS',
       payload: {
         problems: sortedProblems,
-        grades: res.data.gradesForAssignment,
+        grades: sortedGrades,
       },
     });
   } catch (err) {
