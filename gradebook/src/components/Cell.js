@@ -43,6 +43,8 @@ class Cell extends Component {
         maxLength={1}
         innerRef={this.props.inputRef}
         onKeyPress={event => this.keyPress(event)}
+        col={this.props.problemNum}
+        row={this.props.rowNum}
       />
     );
   }
