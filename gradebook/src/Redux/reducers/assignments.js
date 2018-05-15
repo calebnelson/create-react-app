@@ -20,7 +20,10 @@ export const assignmentsReducer = (state = defaultState, action) => {
     case 'QUERY_LESSON_SUCCESS':
       return {
         ...state,
-        assignments: action.payload.assignments,
+        assignments: action.payload.assignments.filter((assignment) => {
+          // return assignment.problemSet.kind === "OFFLINE";
+          return true;
+        }),
         loading: false,
       };
     case 'QUERY_LESSON_FAILURE':

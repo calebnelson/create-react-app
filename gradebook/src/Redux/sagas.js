@@ -33,6 +33,7 @@ const queryOnLesson = `
               problemSet {
                   title
                   order
+                  kind
               }
           }
       }
