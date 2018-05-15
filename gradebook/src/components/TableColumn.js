@@ -13,20 +13,25 @@ function getValue(resp){
     return "";
 }
 
-export const TableColumn = ({problemNum, columnTotal, submissions, onChange, handleKeyDown, inputs}) => (
+export const TableColumn = ({problem, columnTotal, submissions, onChange, handleKeyDown, inputs}) => (
     <Flex col>
-    <TextCell col>{problemNum + 1}</TextCell>
+    <TextCell col link
+        accessibilityRole='link' 
+        href={"https://next.ardentlabs.io/problem/".concat(problem.id)} 
+        target="_blank">
+            {problem.order}
+    </TextCell>
     <TextCell col>{columnTotal}</TextCell>
     {submissions.map((submissionData, index) => (
         <Cell
-            key={`${index}, ${problemNum}`}
-            defaultValue={getValue(submissionData.responses[problemNum])}
-            problemNum={problemNum}
+            key={`${index}, ${problem.order}`}
+            defaultValue={getValue(submissionData.responses[problem.order])}
+            problemNum={problem.order}
             rowNum={index}
             studentId={submissionData.student.id}
             onChange={onChange}
             handleKeyDown={handleKeyDown}
-            inputRef={inputs[index * submissionData.responses.length + problemNum]}
+            inputRef={inputs[index * submissionData.responses.length + problem.order]}
         />
     ))}
     </Flex>

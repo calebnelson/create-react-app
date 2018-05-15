@@ -214,7 +214,7 @@ class GradeTable extends Component {
             this.props.problems.map((problemData, index) => (
               <TableColumn
                 key={'columnNum'.concat(index)}
-                problemNum={index}
+                problem={this.props.problems[index]}
                 columnTotal={this.props.columns[index]}
                 submissions={this.props.submissions}
                 onChange={this.props.onChange}
