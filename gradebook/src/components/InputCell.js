@@ -1,42 +1,87 @@
-import styled from 'styled-components'
-import { TextInput } from 'react-native-web'
+import React, { Component } from 'react';
+import { GridCell, GridCellTop, GridCellLeft, GridCellTopLeft } from './GridCells';
 
-export const InputCell = styled(TextInput)`
-    height: 2em;
-    width: 2em;
-    border-top: 0px;
-    border-left: 0px;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    text-align: center;
-`
+class InputCell extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: this.props.defaultValue || '',
+    };
+  }
 
-export const InputCellTop = styled(TextInput)`
-    height: 2em;
-    width: 2em;
-    border-top: 1px solid black;
-    border-left: 0px;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    text-align: center;
-`
+  keyPress = event => {
+    switch (event.key) {
+      case '1':
+      case '0':
+        this.setState({
+          value: event.key,
+        });
+        break;
+      case ' ':
+      case 'Backspace':
+        this.setState({
+          value: '',
+        });
+        break;
 
-export const InputCellLeft = styled(TextInput)`
-    height: 2em;
-    width: 2em;
-    border-top: 0px;
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    text-align: center;
-`
+      default:
+        break;
+    }
+    this.props.handleKeyDown(
+      event,
+      this.props.rowNum,
+      (this.props.problemNum - 1), //this is because handleKeyDown expects problemNums to start at 0, while they currently start at 1
+      this.props.studentId
+    );
+  };
 
-export const InputCellTopLeft = styled(TextInput)`
-    height: 2em;
-    width: 2em;
-    border-top: 1px solid black;
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    text-align: center;
-`
+  render() {
+    const col = this.props.problemNum;
+    const row = this.props.rowNum;
+    if (col !== 1 && row !== 0){
+      return (
+        <GridCell
+          value={this.state.value}
+          keyboardType="default"
+          maxLength={1}
+          innerRef={this.props.inputRef}
+          onKeyPress={event => this.keyPress(event)}
+        />
+      );
+    }
+    if (col !== 1 && row === 0){
+      return (
+        <GridCellTop
+          value={this.state.value}
+          keyboardType="default"
+          maxLength={1}
+          innerRef={this.props.inputRef}
+          onKeyPress={event => this.keyPress(event)}
+        />
+      );
+    }
+    if (col === 1 && row !== 0){
+      return (
+        <GridCellLeft
+          value={this.state.value}
+          keyboardType="default"
+          maxLength={1}
+          innerRef={this.props.inputRef}
+          onKeyPress={event => this.keyPress(event)}
+        />
+      );
+    }
+    if (col === 1 && row === 0){
+      return (
+        <GridCellTopLeft
+          value={this.state.value}
+          keyboardType="default"
+          maxLength={1}
+          innerRef={this.props.inputRef}
+          onKeyPress={event => this.keyPress(event)}
+        />
+      );
+    }
+  }
+}
+export default InputCell;
