@@ -10,4 +10,9 @@ export const TextCell = styled(({ col, left, link, ...rest }) => <Text {...rest}
   align-items: center;
   text-decoration: ${props => (props.link ? 'underline' : 'none')}
   color: ${props => (props.link ? 'blue' : 'black')}
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+  padding-left: .5em;
+  padding-right: .5em;
+  background: #AFD2E9;
 `;

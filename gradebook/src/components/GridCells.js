@@ -9,6 +9,7 @@ export const GridCell = styled(TextInput)`
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     text-align: center;
+    background: #F1FFFA;
 `
 
 export const GridCellTop = styled(TextInput)`
@@ -19,6 +20,7 @@ export const GridCellTop = styled(TextInput)`
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     text-align: center;
+    background: #F1FFFA;
 `
 
 export const GridCellLeft = styled(TextInput)`
@@ -29,6 +31,7 @@ export const GridCellLeft = styled(TextInput)`
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     text-align: center;
+    background: #F1FFFA;
 `
 
 export const GridCellTopLeft = styled(TextInput)`
@@ -39,4 +42,5 @@ export const GridCellTopLeft = styled(TextInput)`
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     text-align: center;
+    background: #F1FFFA;
 `

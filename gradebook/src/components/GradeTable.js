@@ -226,9 +226,9 @@ class GradeTable extends Component {
             'No Students'
           )}
         </GradeTableFlex>
-        <Button id="submitButton" onPress={() => this.props.submit(this.props.assignment, this.props.problems, this.props.submissions)} title="Submit" />
-        <Button id="revertButton" onPress={() => this.props.revert(this.props.assignment)} title="Revert Changes" color='red'/>
-        <Button id="resetButton" onPress={() => this.props.reset()} title="Reset Application" color='black'/>
+        <Button id="submitButton" onPress={() => this.props.submit(this.props.assignment, this.props.problems, this.props.submissions)} title="Submit" color="#B1B695" />
+        <Button id="revertButton" onPress={() => this.props.revert(this.props.assignment)} title="Revert Changes" color='#C05746'/>
+        <Button id="resetButton" onPress={() => this.props.reset()} title="Reset Application" color='#4B3B47'/>
       </View>
     );
   }
