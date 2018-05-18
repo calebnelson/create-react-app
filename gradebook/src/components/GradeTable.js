@@ -165,11 +165,11 @@ class GradeTable extends Component {
       <View>
         <GradeTableFlex>
           <NameFlex col grow>
-            <TextCell left>Students - {this.props.submissions.length}</TextCell>
-            <TextCell left altcolor>First Name</TextCell>
+            <TextCell left topborder leftborder>Students - {this.props.submissions.length}</TextCell>
+            <TextCell left altcolor leftborder>First Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell left altcolor={index % 2 == 1} key={'firstname'.concat(index)}>
+                <TextCell left leftborder altcolor={index % 2 == 1} key={'firstname'.concat(index)}>
                   {studentData.student.firstName}
                 </TextCell>
               ))
@@ -178,7 +178,7 @@ class GradeTable extends Component {
             )}
           </NameFlex>
           <NameFlex col grow>
-            <TextCell></TextCell>
+            <TextCell topborder></TextCell>
             <TextCell left altcolor>Last Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
@@ -191,7 +191,7 @@ class GradeTable extends Component {
             )}
           </NameFlex>
           <NumFlex col grow>
-            <TextCell>Total</TextCell>
+            <TextCell topborder>Total</TextCell>
             <TextCell altcolor>
               {this.getTotal() * (this.props.problems.length || 0) / 100}
             </TextCell>
@@ -200,7 +200,7 @@ class GradeTable extends Component {
             ))}
           </NumFlex>
           <NumFlex col grow>
-            <TextCell>Percent</TextCell>
+            <TextCell topborder>Percent</TextCell>
             <TextCell altcolor>{''.concat(this.getTotal()).concat('%')}</TextCell>
             {this.getTotals().map((total, index) => (
               <TextCell altcolor={index % 2 == 1} key={'percent'.concat(index)}>

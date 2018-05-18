@@ -15,7 +15,7 @@ function getValue(resp){
 
 export const TableColumn = ({problem, columnTotal, submissions, onChange, handleKeyDown, inputs}) => (
     <Flex col>
-        <TextCell col link
+        <TextCell col link topborder
             accessibilityRole='link' 
             href={"https://next.ardentlabs.io/problem/".concat(problem.id)} 
             target="_blank">
