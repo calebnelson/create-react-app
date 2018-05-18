@@ -166,10 +166,10 @@ class GradeTable extends Component {
         <GradeTableFlex>
           <NameFlex col grow>
             <TextCell left>Students - {this.props.submissions.length}</TextCell>
-            <TextCell left>First Name</TextCell>
+            <TextCell left altcolor>First Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell left key={'firstname'.concat(index)}>
+                <TextCell left altcolor={index % 2 == 1} key={'firstname'.concat(index)}>
                   {studentData.student.firstName}
                 </TextCell>
               ))
@@ -179,10 +179,10 @@ class GradeTable extends Component {
           </NameFlex>
           <NameFlex col grow>
             <TextCell></TextCell>
-            <TextCell left>Last Name</TextCell>
+            <TextCell left altcolor>Last Name</TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell left key={'lastname'.concat(index)}>
+                <TextCell left altcolor={index % 2 == 1} key={'lastname'.concat(index)}>
                   {studentData.student.lastName}
                 </TextCell>
               ))
@@ -192,18 +192,18 @@ class GradeTable extends Component {
           </NameFlex>
           <NumFlex col grow>
             <TextCell>Total</TextCell>
-            <TextCell>
+            <TextCell altcolor>
               {this.getTotal() * (this.props.problems.length || 0) / 100}
             </TextCell>
             {this.getTotals().map((total, index) => (
-              <TextCell key={'total'.concat(index)}>{total}</TextCell>
+              <TextCell altcolor={index % 2 == 1} key={'total'.concat(index)}>{total}</TextCell>
             ))}
           </NumFlex>
           <NumFlex col grow>
             <TextCell>Percent</TextCell>
-            <TextCell>{''.concat(this.getTotal()).concat('%')}</TextCell>
+            <TextCell altcolor>{''.concat(this.getTotal()).concat('%')}</TextCell>
             {this.getTotals().map((total, index) => (
-              <TextCell key={'percent'.concat(index)}>
+              <TextCell altcolor={index % 2 == 1} key={'percent'.concat(index)}>
                 {''
                   .concat(total * 100 / this.props.problems.length)
                   .concat('%')}

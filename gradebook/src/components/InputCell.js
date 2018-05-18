@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GridCell, GridCellTop, GridCellLeft, GridCellTopLeft } from './GridCells';
+import { GridCellDefault, GridCellTop, GridCellLeft, GridCellTopLeft, GridCellAltColor, GridCellAltColorLeft } from './GridCells';
 
 class InputCell extends Component {
   constructor(props) {
@@ -39,15 +39,28 @@ class InputCell extends Component {
     const col = this.props.problemNum;
     const row = this.props.rowNum;
     if (col !== 1 && row !== 0){
-      return (
-        <GridCell
-          value={this.state.value}
-          keyboardType="default"
-          maxLength={1}
-          innerRef={this.props.inputRef}
-          onKeyPress={event => this.keyPress(event)}
-        />
-      );
+      if(this.props.altcolor){
+        return (
+          <GridCellAltColor
+            value={this.state.value}
+            keyboardType="default"
+            maxLength={1}
+            innerRef={this.props.inputRef}
+            onKeyPress={event => this.keyPress(event)}
+          />
+        );
+      }
+      else{
+        return (
+          <GridCellDefault
+            value={this.state.value}
+            keyboardType="default"
+            maxLength={1}
+            innerRef={this.props.inputRef}
+            onKeyPress={event => this.keyPress(event)}
+          />
+        )
+      }
     }
     if (col !== 1 && row === 0){
       return (
@@ -56,20 +69,34 @@ class InputCell extends Component {
           keyboardType="default"
           maxLength={1}
           innerRef={this.props.inputRef}
+          altcolor={this.props.altcolor}
           onKeyPress={event => this.keyPress(event)}
         />
       );
     }
     if (col === 1 && row !== 0){
-      return (
-        <GridCellLeft
-          value={this.state.value}
-          keyboardType="default"
-          maxLength={1}
-          innerRef={this.props.inputRef}
-          onKeyPress={event => this.keyPress(event)}
-        />
-      );
+      if(this.props.altcolor){
+        return (
+          <GridCellAltColorLeft
+            value={this.state.value}
+            keyboardType="default"
+            maxLength={1}
+            innerRef={this.props.inputRef}
+            onKeyPress={event => this.keyPress(event)}
+          />
+        );
+      }
+      else{
+        return (
+          <GridCellLeft
+            value={this.state.value}
+            keyboardType="default"
+            maxLength={1}
+            innerRef={this.props.inputRef}
+            onKeyPress={event => this.keyPress(event)}
+          />
+        )
+      }
     }
     if (col === 1 && row === 0){
       return (
@@ -78,6 +105,7 @@ class InputCell extends Component {
           keyboardType="default"
           maxLength={1}
           innerRef={this.props.inputRef}
+          altcolor={this.props.altcolor}
           onKeyPress={event => this.keyPress(event)}
         />
       );

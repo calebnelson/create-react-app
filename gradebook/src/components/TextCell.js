@@ -2,17 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { Text } from 'react-native-web';
 
-export const TextCell = styled(({ col, left, link, ...rest }) => <Text {...rest} />)`
+export const TextCell = styled(({ col, left, link, altcolor, ...rest }) => <Text {...rest} />)`
   height: 2em;
   width: ${props => (props.col ? '2em' : '100%')};
   justify-content: ${props => (props.left ? 'flex-start' : 'center')};
   display: flex;
   align-items: center;
-  text-decoration: ${props => (props.link ? 'underline' : 'none')}
-  color: ${props => (props.link ? 'blue' : 'black')}
+  text-decoration: ${props => (props.link ? 'underline' : 'none')};
+  color: ${props => (props.link ? 'blue' : 'black')};
   border-bottom: 1px solid black;
   border-right: 1px solid black;
   padding-left: .5em;
   padding-right: .5em;
-  background: #AFD2E9;
+  background: ${props => (props.altcolor ? "#F1FFFA" : "#AFD2E9")};
 `;

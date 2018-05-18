@@ -21,7 +21,7 @@ export const TableColumn = ({problem, columnTotal, submissions, onChange, handle
             target="_blank">
                 {problem.order}
         </TextCell>
-        <TextCell col>{columnTotal}</TextCell>
+        <TextCell col altcolor>{columnTotal}</TextCell>
         {submissions.map((submissionData, index) => (
             <InputCell
                 key={`${index}, ${problem.order}`}
@@ -31,6 +31,7 @@ export const TableColumn = ({problem, columnTotal, submissions, onChange, handle
                 studentId={submissionData.student.id}
                 onChange={onChange}
                 handleKeyDown={handleKeyDown}
+                altcolor={index % 2 == 1}
                 inputRef={inputs[index * submissionData.responses.length + (problem.order-1)]}
             />
         ))}
