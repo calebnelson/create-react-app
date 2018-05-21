@@ -4,17 +4,11 @@ import { Flex } from './Flex';
 import { TextCell } from './TextCell';
 import { TableColumn } from './TableColumn';
 
-const GradeTableFlex = Flex.extend`
-  margin: 1em;
-`
+const GradeTableFlex = Flex.extend`margin: 1em;`;
 
-const NameFlex = Flex.extend`
-  max-width: 8em;
-`
+const NameFlex = Flex.extend`max-width: 8em;`;
 
-const NumFlex = Flex.extend`
-  max-width: 4em;
-`
+const NumFlex = Flex.extend`max-width: 4em;`;
 
 class GradeTable extends Component {
   constructor(props) {
@@ -165,11 +159,20 @@ class GradeTable extends Component {
       <View>
         <GradeTableFlex>
           <NameFlex col grow>
-            <TextCell left topborder leftborder>Students - {this.props.submissions.length}</TextCell>
-            <TextCell left altcolor leftborder>First Name</TextCell>
+            <TextCell left topborder leftborder>
+              Students - {this.props.submissions.length}
+            </TextCell>
+            <TextCell left altcolor leftborder>
+              First Name
+            </TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell left leftborder altcolor={index % 2 == 1} key={'firstname'.concat(index)}>
+                <TextCell
+                  left
+                  leftborder
+                  altcolor={index % 2 === 1}
+                  key={'firstname'.concat(index)}
+                >
                   {studentData.student.firstName}
                 </TextCell>
               ))
@@ -178,11 +181,17 @@ class GradeTable extends Component {
             )}
           </NameFlex>
           <NameFlex col grow>
-            <TextCell topborder></TextCell>
-            <TextCell left altcolor>Last Name</TextCell>
+            <TextCell topborder />
+            <TextCell left altcolor>
+              Last Name
+            </TextCell>
             {this.props.submissions ? (
               this.props.submissions.map((studentData, index) => (
-                <TextCell left altcolor={index % 2 == 1} key={'lastname'.concat(index)}>
+                <TextCell
+                  left
+                  altcolor={index % 2 === 1}
+                  key={'lastname'.concat(index)}
+                >
                   {studentData.student.lastName}
                 </TextCell>
               ))
@@ -196,14 +205,21 @@ class GradeTable extends Component {
               {this.getTotal() * (this.props.problems.length || 0) / 100}
             </TextCell>
             {this.getTotals().map((total, index) => (
-              <TextCell altcolor={index % 2 == 1} key={'total'.concat(index)}>{total}</TextCell>
+              <TextCell altcolor={index % 2 === 1} key={'total'.concat(index)}>
+                {total}
+              </TextCell>
             ))}
           </NumFlex>
           <NumFlex col grow>
             <TextCell topborder>Percent</TextCell>
-            <TextCell altcolor>{''.concat(this.getTotal()).concat('%')}</TextCell>
+            <TextCell altcolor>
+              {''.concat(this.getTotal()).concat('%')}
+            </TextCell>
             {this.getTotals().map((total, index) => (
-              <TextCell altcolor={index % 2 == 1} key={'percent'.concat(index)}>
+              <TextCell
+                altcolor={index % 2 === 1}
+                key={'percent'.concat(index)}
+              >
                 {''
                   .concat(total * 100 / this.props.problems.length)
                   .concat('%')}
@@ -226,9 +242,29 @@ class GradeTable extends Component {
             'No Students'
           )}
         </GradeTableFlex>
-        <Button id="submitButton" onPress={() => this.props.submit(this.props.assignment, this.props.problems, this.props.submissions)} title="Submit" color="#B1B695" />
-        <Button id="revertButton" onPress={() => this.props.revert(this.props.assignment)} title="Revert Changes" color='#C05746'/>
-        <Button id="resetButton" onPress={() => this.props.reset()} title="Reset Application" color='#4B3B47'/>
+        <Button
+          id="submitButton"
+          onPress={() =>
+            this.props.submit(
+              this.props.assignment,
+              this.props.problems,
+              this.props.submissions
+            )}
+          title="Submit"
+          color="#B1B695"
+        />
+        <Button
+          id="revertButton"
+          onPress={() => this.props.revert(this.props.assignment)}
+          title="Revert Changes"
+          color="#C05746"
+        />
+        <Button
+          id="resetButton"
+          onPress={() => this.props.reset()}
+          title="Reset Application"
+          color="#4B3B47"
+        />
       </View>
     );
   }
