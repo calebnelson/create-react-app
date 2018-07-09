@@ -31,7 +31,7 @@ export const TableColumn = ({problem, columnTotal, submissions, onChange, handle
                 studentId={submissionData.student.id}
                 onChange={onChange}
                 handleKeyDown={handleKeyDown}
-                altcolor={index % 2 == 1}
+                altcolor={index % 2 === 1}
                 inputRef={inputs[index * submissionData.responses.length + (problem.order-1)]}
             />
         ))}
